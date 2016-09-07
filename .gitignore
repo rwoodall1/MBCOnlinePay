@@ -45,3 +45,15 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.Config
+online-pay/.nuget/NuGet.exe
+*.suo
+online-pay/ApiBindingModels/ApiBindingModels.csproj
+*.user
+online-pay/ApiBindingModels/bin/Debug/ApiBindingModels.dll
+*.dll
+online-pay/ApiBindingModels/bin/Debug/ApiBindingModels.pdb
+*.targets
+*.pdb
+online-pay/ApiBindingModels/bin/Debug/Common.Logging.xml
+*.xml

@@ -1,0 +1,33 @@
+﻿
+<form name="schoolPayForm" class="form-horizontal" role="form">
+    <input ng-model="application.onlinePay.form" ng-init="application.onlinePay.form=schoolPayForm" hidden />
+
+    <h1>School Payment Page</h1>
+
+    Parents should enter your code in the textbox below and click next to proceed. If you are a school, please visit the school page
+    <br /><br />
+    Enter your pay code in the textbox below and click next to proceed.
+    <br />
+    <br />
+    <img src="/Content/images/spiffygif_30x30.gif" style="text-align: center" ng-show="lookingUpPayCode" />
+    <div ng-if="!lookingUpPayCode">
+        <div class="floatLeft"><label class="control-label" trns>School Code:</label></div>
+        <div class="floatLeft"><input type="text" maxlength="6" class="form-control" name="schoolcode" ng-model="schoolCode" required /></div>
+        <div class="floatLeft"><input type="submit" ng-click="lookupSchoolCode(schoolCode)" class="btn order-button" value="Next" /></div>
+    
+        <div class="clear"></div>
+    </div>
+
+
+    <div class="alert alert-danger" role="alert" ng-if="(schoolPayForm.schoolcode.$error.required && schoolPayForm.schoolcode.$dirty)">
+        Code is required
+    </div>
+    <div class="alert alert-danger" role="alert" ng-if="schoolCodeNotFound">
+        Please enter a valid numeric code. Please try again or contact your Memory Book customer representative for help.
+    </div>
+
+    <br />
+    If you have any questions about ordering your yearbook contact your school's yearbook advisor.
+
+    <br /><br />
+</form>

@@ -1,0 +1,130 @@
+﻿
+<form name="onlinePayForm" class="form-horizontal" role="form">
+    <input ng-model="application.onlinePay.form" ng-init="application.onlinePay.form=onlinePayForm" hidden />
+
+    <h1>Parent Order/Payment</h1>
+    <div style="color:#dc0000;font-weight:bold">Check that your Pay Code and School Name below are correct. If they are not, return to the previous page and carefully re-enter your Pay Code.</div>
+    <br />
+    <div class="floatLeft" style="color:#045e00;font-weight:bold">Pay Code: {{application.paycode}} </div>
+    <div class="floatLeft" style="color:#045e00;font-weight:bold">School Name: {{schoolname}} </div>
+    <div class="clear"></div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Grade</label> <span class="required">*</span><br />
+            <select name="grade" class="form-control" ng-model="application.order.grade" required>
+                <option value="">-- Please Select --</option>
+                <option ng-repeat="row in grades">{{row.grade}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Teacher</label> <span class="required">*</span><br />
+            <select name="teacher" class="form-control" ng-model="application.order.teacher" required>
+                <option value="">-- Please Select --</option>
+                <option ng-repeat="row in teachers">{{row.teacher}}</option>
+            </select> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label>Student First Name</label> <span class="required">*</span><br />
+                    <input type="text" name="studentFirstName" class="form-control" ng-model="application.order.studentFirstName" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label>Student Last Name <span class="required">*</span></label><br />
+                    <input type="text" name="studentLastName" class="form-control" ng-model="application.order.studentLastName" required>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+    <div class="form-group">
+        <div class="col-md-5">
+            <label>Enter email address for receipt to your inbox</label> <span class="required">*</span><br />
+            <input type="text" name="email" class="form-control" ng-model="application.order.email" required>
+        </div>
+    </div>
+     <br /><br />
+    <strong style="font-size:20px;">Order Your Yearbook</strong>
+    <br /><br>
+    <label>
+        <input type="radio" name="yearbookType" value="Standard Yearbook" ng-model="application.order.yearbookType"> Standard Yearbook
+    </label>
+    <br />
+    <label>
+        <input type="radio" name="yearbookType" value="Personalized Ink Yearbook" ng-model="application.order.yearbookType"> Personalized Ink Yearbook
+    </label>
+    
+    <br /><br />
+    <div class="floatLeft">
+        <label>QTY:</label>
+    </div>
+    <div class="floatLeft">
+        <input type="text" name="quantity" class="form-control" ng-model="application.order.yearbookQuantity" style="width:70px" required>
+    </div>
+    <div class="clear"></div>
+
+    <div class="grayBox" ng-if="application.order.yearbookType=='Personalized Ink Yearbook'">
+        <div class="form-group">
+            <div class="col-md-6">
+                <label>Personalized Text</label><br />
+                <input type="text" name="personalizedText" class="form-control" ng-model="application.order.personalizedText">
+            </div>
+        </div>
+        <strong>PLEASE CHECK YOUR GRAMMAR AND SPELLING, TEXT WILL BE PRINTED AS SUBMITTED.</strong>
+        <br /><br />
+        Choose Your Icons <br /><br />
+        <div class="row">
+            <div class="col-md-3">
+                First Icon <br />
+                <select name="icon1" class="form-control" ng-model="application.order.icon1">
+                    <option value="">-- Please Select --</option>
+                    <option ng-repeat="row in icons" ng-value="row.ivalue">{{row.caption}}</option>
+                </select>
+
+                <img ng-show="application.order.icon1 != null && application.order.icon1!=''" ng-src="/v-1/Content/images/Icons/{{application.order.icon1}}.jpg" alt="Icon" style="margin-top:10px;height:65px;width:65px" />
+            </div>
+            <div class="col-md-3">
+                Second Icon<br />
+                <select name="icon2" class="form-control" ng-model="application.order.icon2" ng-disabled="application.order.icon1=='' || application.order.icon1==null">
+                    <option value="">-- Please Select --</option>
+                    <option ng-repeat="row in icons" ng-value="row.ivalue">{{row.caption}}</option>
+                </select>
+
+                <img ng-show="application.order.icon2 != null && application.order.icon2!=''" ng-src="/v-1/Content/images/Icons/{{application.order.icon2}}.jpg" alt="Icon" style="margin-top:10px;height:65px;width:65px" />
+            </div>
+            <div class="col-md-3">
+                Third Icon <br />
+                <select name="icon3" class="form-control" ng-model="application.order.icon3" ng-disabled="application.order.icon2=='' || application.order.icon2==null">
+                    <option value="">-- Please Select --</option>
+                    <option ng-repeat="row in icons" ng-value="row.ivalue"> {{row.caption}}</option>
+                </select>
+
+                <img ng-show="application.order.icon3 != null && application.order.icon3!=''" ng-src="/v-1/Content/images/Icons/{{application.order.icon3}}.jpg" alt="Icon" style="margin-top:10px;height:65px;width:65px" />
+            </div>
+            <div class="col-md-3">
+                Fourth Icon <br />
+                <select name="icon4" class="form-control" ng-model="application.order.icon4" ng-disabled="application.order.icon3=='' || application.order.icon3==null">
+                    <option value="">-- Please Select --</option>
+                    <option ng-repeat="row in icons" ng-value="row.ivalue">{{row.caption}}</option>
+                </select>
+
+                <img ng-show="application.order.icon4 != null && application.order.icon4!=''" ng-src="/v-1/Content/images/Icons/{{application.order.icon4}}.jpg" alt="Icon" style="margin-top:10px;height:65px;width:65px" />
+            </div>
+        </div>
+    </div>
+    <br />
+    <ngcart-addtocart ng-click="checkForm()" is-disabled="onlinePayForm.$invalid" id="{{application.cartid}}" name="{{application.order.yearbookType}}" quantity="{{application.order.yearbookQuantity}}" price="25.75" data="application.order">Add to Cart</ngcart-addtocart>(click to add yearbook in cart)<br /><br />
+
+    Repeat step after adding to cart if ordering yearbooks for multiple students.
+    <br /><br />
+    <ngcart-cart></ngcart-cart>
+</form>
