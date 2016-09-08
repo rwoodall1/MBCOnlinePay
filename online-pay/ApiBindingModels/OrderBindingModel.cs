@@ -11,8 +11,30 @@ namespace ApiBindingModels {
     public class GetOrderIDRequest {
         public string value { get; set; }
     }
+    public class OrderData
+    {
+      public string Teacher { get; set; }
+        public decimal ItemAmount { get; set; }
+        public UInt32 Itemqty { get; set; }
+        public UInt32 OrderId { get; set; }
+        public DateTime OrdDate { get; set; }
+        public string Grade { get; set; }
+        public string Studentfname { get; set; }
+        public string studentlname { get; set; }
+        public decimal Itemtotal { get; set; }
+        public string Booktype { get; set; }
+        public string Emailaddress { get; set; }
+        public string Perstext1 { get; set; }
+        public string Paytype { get; set; }
+        public string Schname { get; set; }
+        public string Transid { get; set; }
+        public string Icon1 { get; set; }
+        public string Icon2 { get; set; }
+        public string Icon3 { get; set; }
+        public string Icon4 { get; set; }
 
-    public class CheckoutRequestBindingModel {
+    }
+        public class CheckoutRequestBindingModel {
         public ICollection<CheckoutListRequestBindingModel> Items { get; set; }
         public string Shipping { get; set; }
         public string SubTotal { get; set; }

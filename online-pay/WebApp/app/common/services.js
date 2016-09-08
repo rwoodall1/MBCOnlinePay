@@ -116,7 +116,27 @@ angular.module('app')
             removeError: removeError
         };
     }])
+    .service('OrderDataService', ['$http', '$q', '$rootScope', 'globalConstants', 'NotificationService', function ($http, $q, $rootScope, globalConstants, NotificationService) {
+        var orderApiPrefix = 'api/order/';
+        var getOrders = function (invno) {
+            var defer = $q.defer();
 
+            $http.get(orderApiPrefix + 'getAllOrders?invno='+invno).
+              success(function (data, status, headers, config) {
+                  defer.resolve(data);
+              }).
+              error(function (data, status, headers, config) {
+                  defer.resolve(null);
+              });
+
+            return defer.promise;
+        }
+        return {
+            getOrders:getOrders
+              
+        };
+
+    }])
     .service('InvoiceDataService', ['$http', '$q', '$rootScope', 'globalConstants', 'NotificationService', function ($http, $q, $rootScope, globalConstants, NotificationService) {
         var invoiceApiPrefix = 'api/invoice/';
 
@@ -124,6 +144,19 @@ angular.module('app')
             var defer = $q.defer();
 
             $http.get(invoiceApiPrefix + 'invoiceCodeExist?invNumber=' + invNumber).
+              success(function (data, status, headers, config) {
+                  defer.resolve(data);
+              }).
+              error(function (data, status, headers, config) {
+                  defer.resolve(null);
+              });
+
+            return defer.promise;
+        }
+        var login = function (schcode,password) {
+            var defer = $q.defer();
+           var postData = { schcode: schcode, password: password };
+            $http.post(invoiceApiPrefix +'login' ,postData).
               success(function (data, status, headers, config) {
                   defer.resolve(data);
               }).
@@ -162,9 +195,13 @@ angular.module('app')
 
         }
         return {
+            login:login,
             schoolExist:schoolExist,
             invoiceCodeExist: invoiceCodeExist,
             invoiceInit: invoiceInit
         };
+
+
+
     }]);
- 
+

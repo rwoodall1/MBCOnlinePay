@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.ComponentModel;
 using System.Reflection;
 using System.Globalization;
-
+using Exceptionless;
 namespace Utilities
 {
     public class CollectionHelper
@@ -146,6 +146,7 @@ namespace Utilities
                 {
                     prop.SetValue(entity, date, null);
                 }
+               
                 else
                 {
                     //Making an assumption here about the format of dates in the source data.
@@ -154,6 +155,17 @@ namespace Utilities
                     {
                         prop.SetValue(entity, date, null);
                     }
+                }
+            }
+            else if (prop.PropertyType == typeof(UInt32) || prop.PropertyType == typeof(UInt32?))
+            {
+                if (value == null || value == DBNull.Value)
+                {
+                    prop.SetValue(entity, null, null);
+                }
+                else
+                {
+                    prop.SetValue(entity, UInt32.Parse(value.ToString()), null);
                 }
             }
             else if (prop.PropertyType == typeof(decimal))

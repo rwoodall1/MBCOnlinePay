@@ -57,3 +57,6 @@ online-pay/ApiBindingModels/bin/Debug/ApiBindingModels.pdb
 *.pdb
 online-pay/ApiBindingModels/bin/Debug/Common.Logging.xml
 *.xml
+*.cache
+online-pay/ApiBindingModels/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.cache

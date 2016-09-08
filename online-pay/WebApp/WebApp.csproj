@@ -269,6 +269,10 @@
     <Content Include="app\common\notification.js" />
     <Content Include="app\common\services.js" />
     <Content Include="app\index.html" />
+    <Content Include="app\main\admin\administration.html" />
+    <Content Include="app\main\admin\administration.js" />
+    <Content Include="app\main\admin\login.html" />
+    <Content Include="app\main\admin\login.js" />
     <Content Include="app\main\parent\parent.html" />
     <Content Include="app\main\parent\parent.js" />
     <Content Include="app\main\parent\payment\parentpayment.html" />

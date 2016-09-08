@@ -67,6 +67,22 @@ angular.module('app', [
                 pcode: null          
             },
         })
+        .state('anon.login', {
+            url: '/login',
+            templateUrl: '/app/main/admin/login.html',
+            controller: 'LoginCtrl',
+           
+        })
+         .state('anon.administration', {
+             url: '/admin',
+             templateUrl: '/app/main/admin/administration.html',
+             controller: 'AdminCtrl',
+             params: {
+                 invoicenumber: null,
+                 schcode: null,
+                 schname:null
+             },
+         })
         .state('anon.school', {
             url: '/school',
             templateUrl: '/app/main/school/school.html',

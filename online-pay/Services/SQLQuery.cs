@@ -41,7 +41,7 @@ namespace Services
                     catch (Exception ex)
                     {
                         result.IsSuccessful = false;
-                        ex.ToExceptionless().MarkAsCritical().AddTags("Sql").Submit();
+                        ex.ToExceptionless().MarkAsCritical().AddObject(commandParameters).AddTags("Sql").Submit();
                         result.Error = new ProcessingError("Error processing ExecuteNonQueryAsync", "Error processing ExecuteNonQueryAsync", true, false);
                     }
                     finally
@@ -92,7 +92,7 @@ namespace Services
                         {
                             processingResult.IsSuccessful = false;
                             processingResult.Error = new ProcessingError("Error retrieving data.", "Error retrieving data.", true, false);
-                            ex.ToExceptionless().MarkAsCritical().AddTags("Sql").Submit();
+                            ex.ToExceptionless().MarkAsCritical().AddObject(commandParameters).AddTags("Sql").Submit();
                         }
 
                         return processingResult;
@@ -100,7 +100,7 @@ namespace Services
                     catch (Exception ex)
                     {
                         processingResult.IsSuccessful = false;
-                        ex.ToExceptionless().MarkAsCritical().AddTags("Sql").Submit();
+                        ex.ToExceptionless().MarkAsCritical().AddObject(commandParameters).AddTags("Sql").Submit();
                         processingResult.Error = new ProcessingError("Error running ExecuteReaderAsync. Ex: " + ex.ToString(), "Error running ExecuteReaderAsync. Ex: " + ex.ToString(), false, false);
                         return processingResult;
                     }
@@ -138,7 +138,7 @@ namespace Services
                     catch (Exception ex)
                     {
                         processingResult.IsSuccessful = false;
-                        ex.ToExceptionless().MarkAsCritical().AddTags("Sql").Submit();
+                        ex.ToExceptionless().MarkAsCritical().AddObject(commandParameters).AddTags("Sql").Submit();
                         processingResult.Error = new ProcessingError("Error running ExecuteReaderAsync. Ex: " + ex.ToString(), "Error running ExecuteReaderAsync. Ex: " + ex.ToString(), false, false);
                         return processingResult;
                     }
