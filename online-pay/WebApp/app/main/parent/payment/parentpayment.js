@@ -88,8 +88,12 @@ angular.module('app')
                 $scope.application.order.schCode = $scope.init.schCode;
                 $scope.validate = validate;
                 //console.log($scope.init);
-                var cutOffDate = new Date($scope.init.onlineCuto);
-
+                // var cutOffDate = new Date($scope.init.onlineCuto);
+                console.log($scope.init.onlineCuto)
+                var cutOffDate = addDays(new Date($scope.init.onlineCuto), 1);
+                 console.log(cutOffDate +' cutoff')
+                console.log($scope.currentDate +' current')
+               
                 $scope.pastCutOffDate = $scope.currentDate > cutOffDate;
 
    
@@ -135,6 +139,11 @@ angular.module('app')
                    // document.getElementById('extnForm').submit();
                 
             });
+        }
+        function addDays(date, days) {
+            var result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
         }
         function setAllFormInputsToDirty() {
             for (var property in $scope.form) {
