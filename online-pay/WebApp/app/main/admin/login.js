@@ -27,7 +27,7 @@ angular.module('app')
                     $scope.loggingIn = false;
                     return;
                 }
-            console.log(response.data)
+         
                 if (response.data) {
                     $scope.loggingIn = false;
                     $state.go('anon.administration', { invoicenumber: response.data.invno, schcode: response.data.schcode,schname:response.data.schname});

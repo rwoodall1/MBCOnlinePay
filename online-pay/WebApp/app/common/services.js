@@ -72,7 +72,60 @@ angular.module('app')
             checkRootScope: checkRootScope
         };
     }])
+      .service('TeacherDataService', ['$http', '$q', '$rootScope', 'globalConstants', 'NotificationService', function ($http, $q, $rootScope, globalConstants, NotificationService) {
+          var orderApiPrefix = 'api/teacher/';
+          var getTeachers = function (schcode) {
+              var defer = $q.defer();
 
+              $http.get(orderApiPrefix + 'getAllTeachers?schcode=' + schcode).
+                success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).
+                error(function (data, status, headers, config) {
+                    defer.resolve(null);
+                });
+
+              return defer.promise;
+          }
+          var addTeacher = function (data) {
+              var defer = $q.defer();
+           
+              var postData = {
+                  Teacher: data.teacher,
+                  Grade:data.grade,
+                  Schcode:data.schcode
+              }
+
+              $http.post(orderApiPrefix + 'addTeacher',postData).
+                success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).
+                error(function (data, status, headers, config) {
+                    defer.resolve(null);
+                });
+
+              return defer.promise;
+          }
+          var deleteTeacher = function (id) {
+              var defer = $q.defer();
+                          
+              $http.get(orderApiPrefix + 'deleteTeacher?id='+id).
+                success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).
+                error(function (data, status, headers, config) {
+                    defer.resolve(null);
+                });
+
+              return defer.promise;
+          }
+          return {
+              deleteTeacher:deleteTeacher,
+              getTeachers: getTeachers,
+              addTeacher:addTeacher
+          };
+
+      }])
     .service('NotificationService', ['$rootScope', '$mdToast', 'UtilService', function ($rootScope, $mdToast, UtilService) {
         var displayError = function (errorMessage, bypassNextStateChange, keepExistingMessages) {
             bypassNextStateChange = typeof bypassNextStateChange !== 'undefined' ? bypassNextStateChange : false;

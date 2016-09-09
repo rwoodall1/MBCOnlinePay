@@ -82,8 +82,8 @@ namespace Webapp.Controllers.API {
                     Decimal total = 0;
                     try {
                         //switched
-                        total = Convert.ToDecimal(row.Total) + Convert.ToDecimal(row.Data.IconAmt);
-                        amount = Convert.ToDecimal(row.Price) + Convert.ToDecimal(row.Data.IconAmt);
+                        total = Convert.ToDecimal(row.Total);
+                        amount = Convert.ToDecimal(row.Price);
                     } catch (Exception ex) { }
 
 
@@ -197,7 +197,7 @@ namespace Webapp.Controllers.API {
             var parameters = new MySqlParameter[] {
                     new MySqlParameter("@Invno", invno) };
             var sqlText = @"
-              SELECT orders.Teacher,  orders.Itemamount, orders.Itemqty, orders.OrderId, orders.OrdDate, orders.Grade, orders.Studentfname, orders.Studentlname, orders.Itemtotal,  orders.Booktype, orders.Emailaddress, orders.Perstext1,orders.Paytype, orders.Schname, payment.Transid,L1.caption as 'Icon1',L2.caption as 'Icon2',L3.caption as 'Icon3',L4.caption as 'Icon4'  FROM orders INNER JOIN payment ON orders.orderid = payment.orderid left join lookup as L1 on orders.icon1=L1.ivalue left join lookup as L2 on orders.icon2=L2.ivalue left join lookup as L3 on orders.icon3=L3.ivalue left join lookup as L4 on orders.icon4=L4.ivalue WHERE (orders.schinvoicenumber = @Invno)  ORDER BY orders.orddate, orders.orderid";
+              SELECT orders.Teacher,  orders.ItemAmount, orders.Itemqty, orders.OrderId, orders.OrdDate, orders.Grade, orders.Studentfname, orders.Studentlname, orders.Itemtotal,  orders.Booktype, orders.Emailaddress, orders.Perstext1,orders.Paytype, orders.Schname, payment.Transid,L1.caption as 'Icon1',L2.caption as 'Icon2',L3.caption as 'Icon3',L4.caption as 'Icon4'  FROM orders INNER JOIN payment ON orders.orderid = payment.orderid left join lookup as L1 on orders.icon1=L1.ivalue left join lookup as L2 on orders.icon2=L2.ivalue left join lookup as L3 on orders.icon3=L3.ivalue left join lookup as L4 on orders.icon4=L4.ivalue WHERE (orders.schinvoicenumber = @Invno)  ORDER BY orders.orddate, orders.orderid";
 
             var sqlQuery = new SQLQuery();
             var getOrderResult = await sqlQuery.ExecuteReaderAsync<OrderData>(CommandType.Text, sqlText,parameters);

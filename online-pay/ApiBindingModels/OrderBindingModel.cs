@@ -20,7 +20,7 @@ namespace ApiBindingModels {
         public DateTime OrdDate { get; set; }
         public string Grade { get; set; }
         public string Studentfname { get; set; }
-        public string studentlname { get; set; }
+        public string Studentlname { get; set; }
         public decimal Itemtotal { get; set; }
         public string Booktype { get; set; }
         public string Emailaddress { get; set; }

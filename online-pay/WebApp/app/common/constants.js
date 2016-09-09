@@ -3,6 +3,27 @@
 angular.module('app')
     .constant("globalConstants",
     {
+        gradeOptions: [
+            { text: '12' },
+            { text: '11' },
+            { text: '10' },
+            { text: '9' },
+            { text: '8' },
+            { text: '7' },
+            { text: '6' },
+            { text: '5' },
+            { text: '4' },
+            { text: '3' },
+            {text:'2'},
+            { text: '1' },
+            { text: 'KINDERGARTEN'},
+            { text: 'PREKINDERGARTEN' },
+            { text: 'STAFF' },
+            { text: 'OTHER' },
+            { text: 'COMBOCLASS'}
+
+        ],
+
         maybe: 2,
         yes: 1,
         no: 0,

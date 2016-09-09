@@ -82,7 +82,7 @@ angular.module('app')
                 $scope.teachers = response.data.teachers;
                 
                 $scope.grades = response.data.grades;
-                console.log($scope.grades)
+               
                 $scope.icons = response.data.icons;
                 $scope.init = response.data;
                 $scope.application.order.schCode = $scope.init.schCode;

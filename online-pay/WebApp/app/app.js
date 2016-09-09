@@ -1,5 +1,5 @@
 ﻿'use strict';
-
+agGrid.initialiseAgGridWithAngular1(angular);
 angular.module('app', [
     'ui.router',
     'ui.bootstrap',
@@ -16,7 +16,8 @@ angular.module('app', [
     'ngMaterial',
     'gettext',
     'ngStorage',
-    'ngCart'
+    'ngCart',
+    'agGrid',
 ])
 
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$compileProvider', '$mdThemingProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $compileProvider, $mdThemingProvider) {
