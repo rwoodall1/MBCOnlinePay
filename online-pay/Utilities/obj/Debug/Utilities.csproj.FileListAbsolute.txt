@@ -125,3 +125,9 @@ F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Deb
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\obj\Debug\Utilities.dll
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\obj\Debug\Utilities.pdb
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Debug\Exceptionless.dll
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Debug\Exceptionless.Mvc.dll
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Debug\Exceptionless.WebApi.dll
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Debug\Exceptionless.xml
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Debug\Exceptionless.Mvc.xml
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Debug\Exceptionless.WebApi.xml

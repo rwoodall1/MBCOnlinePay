@@ -24,7 +24,43 @@ using Exceptionless.Models;
 namespace Webapp.Controllers.API {
     [RoutePrefix("api/invoice")]
     public class InvoiceController : BaseApiController {
+        [HttpPost]
+        [Route("login")]
+        public async Task<IHttpActionResult> Login(Credentials cred)
+        {
+            var processingResult = new ServiceProcessingResult<LoginReturn> { IsSuccessful = true };
+            try
+            {
+                var sqlQuery = "SELECT schcode,schname,invno FROM InvoiceInfo WHERE Schcode=@Schcode AND Invno=@Invno";
+                MySqlParameter[] parameters = new MySqlParameter[] { new MySqlParameter("@Invno",cred.password), new MySqlParameter("@Schcode", cred.schcode)};
+                var sqlQueryService = new SQLQuery();
+                var getLoginResult = await sqlQueryService.ExecuteReaderAsync<LoginReturn>(CommandType.Text, sqlQuery, parameters);
+                if (!getLoginResult.IsSuccessful)
+                {
+                    processingResult.IsSuccessful = false;
+                    processingResult.Error = new ProcessingError("Failed to login.", "Failed to login.", true, false);
+                    ExceptionlessClient.Default.CreateLog(typeof(InvoiceController).FullName, "Login failed", "Error").AddObject(cred).AddTags("Controller Error").Submit();
+                    return Ok(processingResult);
+                }
+                var retval = (List<LoginReturn>)getLoginResult.Data;
+                if (retval.Count==1) {
+                    processingResult.Data =retval[0]; }
+                else {
+                    processingResult.IsSuccessful = false;
+                    processingResult.Error = new ProcessingError("Failed to login.", "Failed to login.", true, false);
+                }
+                return Ok(processingResult);
 
+            }
+            catch (Exception ex)
+            {
+                processingResult.IsSuccessful = false;
+                processingResult.Error = new ProcessingError("Failed to login.", "Failed to login.", true, false);
+                ex.ToExceptionless().Submit();
+                return Ok(processingResult);
+            }
+
+        }
         [HttpGet]
         [Route("invoiceCodeExist")]
         public async Task<IHttpActionResult> InvoiceCodeExist(string invNumber) {
@@ -184,5 +220,16 @@ namespace Webapp.Controllers.API {
             }
             return Ok(processingResult);
         }
+    }
+    public class Credentials
+    {
+       public string password { get; set; }
+      public string schcode { get; set; }
+    }
+    public class LoginReturn
+    {
+        public string schcode{ get; set; }
+        public string schname { get; set; }
+        public string invno { get; set; }
     }
 }

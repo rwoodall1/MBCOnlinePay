@@ -53,7 +53,7 @@ h4 { font-size: 110%; font-weight: bold; text-transform: none; color: #192c57; }
 box-shadow: 0px 6px 8px 1px rgba(128,128,128,1);}
 
 
-.logo {position:relative;z-index:1500;margin-left:10px;margin-top:10px;margin-bottom:10px;float:left}
+.logo {position:relative;margin-left:10px;margin-top:10px;margin-bottom:10px;float:left}
 .leftMenu {height:auto;display:block;background-color:#fff;background-image:url('../images/leftMenuBackground.PNG');background-repeat:repeat-y;}
 .rightMenu {height:auto;background-color:#fff}
 .footer {text-align:center;font-size:14px;color:#fff; background-color:#091F40; border-bottom-right-radius:6px;border-bottom-left-radius:6px;padding:10px}
@@ -166,7 +166,57 @@ md-toast.md-toast-error-theme { background-color: #e13114; color: #FFFFFF; posit
 .order-button,
 .order-button:hover,
 .order-button:focus { background-color: #192c57 !important; color: #fff !important; }
+.ag-header-container {
+  background-color: #A81217;
+  color: #fff;
+  text-align: left; }
 
+.ag-header-cell-resize {
+  border-right: 1px solid #ddd !important; }
+
+.ag-bootstrap .ag-root {
+  border: 1px solid #ddd !important; }
+
+.ag-cell {
+  padding: 4px !important; }
+
+.ag-cell:focus {
+  outline: auto 5px #ffef11 !important; }
+
+.ag-cell-no-focus {
+  border-bottom: 1px solid #ddd !important;
+  border-right: 1px solid #ddd !important; }
+
+.ag-header {
+  background-color: #A81217 !important; }
+
+.ag-row-selected {
+  background-color: #AAA !important; }
+
+.ag-cell-focus {
+  border: 1px solid #ffef11 !important; }
+
+.ag-font-style {
+  -webkit-user-select: auto !important; }
+
+.ag-header-cell ag-header-cell-sortable ag-header-cell-sorted-none {
+  color: #fff;
+  text-align: left; }
+
+.ag-header-icon .ag-sort-ascending-icon .ag-hidden {
+  color: #fff; }
+
+.ag-header-icon .ag-sort-descending-icon {
+  color: #fff; }
+
+.ag-cell-value {
+  padding: 5px; }
+
+.ag-bootstrap .ag-header-cell-label {
+  text-align: left; }
+
+.ag-row:hover {
+  background-color: #fcffb6 !important; }
 
 @media only screen and (max-width: 992px) {
     .header-top .header-text {position:relative;top:15px; font-size:18px}

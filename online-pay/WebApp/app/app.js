@@ -1,5 +1,5 @@
 ﻿'use strict';
-
+agGrid.initialiseAgGridWithAngular1(angular);
 angular.module('app', [
     'ui.router',
     'ui.bootstrap',
@@ -16,7 +16,8 @@ angular.module('app', [
     'ngMaterial',
     'gettext',
     'ngStorage',
-    'ngCart'
+    'ngCart',
+    'agGrid',
 ])
 
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$compileProvider', '$mdThemingProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $compileProvider, $mdThemingProvider) {
@@ -67,6 +68,22 @@ angular.module('app', [
                 pcode: null          
             },
         })
+        .state('anon.login', {
+            url: '/login',
+            templateUrl: '/app/main/admin/login.html',
+            controller: 'LoginCtrl',
+           
+        })
+         .state('anon.administration', {
+             url: '/admin',
+             templateUrl: '/app/main/admin/administration.html',
+             controller: 'AdminCtrl',
+             params: {
+                 invoicenumber: null,
+                 schcode: null,
+                 schname:null
+             },
+         })
         .state('anon.school', {
             url: '/school',
             templateUrl: '/app/main/school/school.html',

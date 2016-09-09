@@ -33,8 +33,7 @@ angular.module('app')
              $scope.lookingUpPayCode  = false;
              return;
          }
-         console.log(response);
-         console.log(response.data);
+         
          var cust = response.data
          
          if (cust != null) {

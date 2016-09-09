@@ -1,0 +1,46 @@
+﻿
+    <form name="loginForm" class="form-horizontal" role="form" novalidate>
+        <input ng-model="form" ng-init="form=loginForm" hidden />
+
+        <h1> School Administration Login Page</h1>
+        Enter your credentials below and click submit to proceed.
+        <img src="/Content/images/spiffygif_30x30.gif" style="text-align: center" ng-hide="!loggingIn" />
+     
+
+       
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label class="control-label" trns>School Code:</label>
+                    <input type="text" maxlength="6" class="form-control" name="schcode" ng-model="schoolCode" required />
+                    <div class="alert alert-danger" role="alert"
+                         ng-if="loginForm.schoolcode.$error.required && loginForm.schoolcode.$dirty">
+                        Enter a school code.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label class="control-label" trns>Password:</label>
+                    <input type="text" maxlength="6" class="form-control" name="password" ng-model="passWord" required />
+                    <div class="alert alert-danger" role="alert"
+                         ng-if="loginForm.password.$error.required && loginForm.password.$dirty">
+                        Enter a school code.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="floatLeft"><input type="submit" class="btn order-button" ng-click="login()" value="Submit" /></div>
+
+            <div class="clear"></div>
+    
+
+        <div class="row" ng-if="loginFailed">
+            <div class="col-md-5">
+                <div class="alert alert-danger" role="alert">
+                    Your credentials failed. Please try again or contact your Memory Book customer representative for help.
+                </div>
+            </div>
+        </div>
+
+    </form>

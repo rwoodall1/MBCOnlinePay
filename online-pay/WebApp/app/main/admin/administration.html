@@ -1,0 +1,139 @@
+﻿
+    <form name="adminForm" class="form-horizontal" role="form" novalidate>
+        <input ng-model="form" ng-init="form=adminForm" hidden />
+        <img src="/Content/images/spiffygif_30x30.gif" style="text-align: center" ng-hide="!loading" />
+        <h1> {{schname}}({{schcode}}) Administration Page</h1>
+
+       
+        <div class="form-group col-md-12">
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="pageType"
+                           ng-model="page"
+                         
+                           value="orders" required />
+                    <trns>Orders placed</trns>
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="pageType" ng-model="page"   ng-change="getTeachers()"
+                           value="class" required />
+                    <trns>Add Class Information</trns>
+                </label>
+            </div>
+           
+
+        </div>
+        <div ng-if="page=='class'">
+            
+            <h3>Teacher information for school {{schname}}({{schcode}})</h3>
+            
+            <div class="form-group">
+               
+                <label class="col-sm-3 control-label" trns>Teacher</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control"
+                           ng-model="teacherToAdd"
+                           name="teacher"
+                           ng-model-options="{ debounce: 500}"
+                           required />
+
+                   
+                </div>
+            </div>
+            <div class="form-group">
+              
+                <label class="col-sm-3 control-label" trns>Grade</label>
+                <div class="col-sm-4">
+                    <select class="form-control"
+                            ng-model="gradeToAdd"
+                            ng-options="grade.text for grade in globalConstants.gradeOptions"
+                            name="grade"
+                            ng-model-options="{ debounce: 500 }"
+                            required >
+                        <option value=''>-Select Grade-</option>
+                    </select>
+                    
+                   
+                </div>
+                <div class="col-sm-offset-7">
+                  
+                    <button type="submit" ng-click="addTeacher(teacherToAdd,gradeToAdd)" ng-disabled="submitting" class="btn admin-button" trns>Add Teacher To List</button>
+                    <img src="/Content/images/spiffygif_30x30.gif" style="text-align: center" ng-hide="!addingTeacher" />
+
+
+                </div>
+            </div>
+            <!---->
+            <div class="alert alert-danger" role="alert"
+                 ng-if="(adminForm.teacher.$error.required && adminForm.teacher.$dirty|| (adminForm.grade.$error.required && adminForm.grade.$dirty))">
+                <trns>Teacher name and grade are required.</trns>
+            </div>
+           
+            <div class="row" style="margin:2px">
+                <div class="col-sm-3"></div>
+                    <div class="col-sm-4">
+                        <div ng-if="teachers.length > 0" ag-grid="teacherGridOptions" class="ag-bootstrap" ng-style="gridStyle" id="div_AGGrid1"></div>
+                        <br /><br />
+                        <div ng-if="(!teachers)" class="bg-info padded">
+                            <span class="glyphicon glyphicon-info-sign"></span> No Records Available
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+            <div ng-if="page=='orders'">
+                <div class="row" style="margin:2px">
+                    <div ng-if="orders.length > 0" style="margin-bottom:6px;font-size:16px">
+                        <button type="button" class="btn order-button-small" ng-click="onBtExport()" trns><i class="fa fa-download" aria-hidden="true"></i> Export</button>
+                        <button class="btn order-button-small" ng-click="sizeToFit('s')"><i class="fa fa-columns" aria-hidden="true"></i> Show All Columns</button>
+                        <button class="btn order-button-small" ng-click="autoSizeAll('s')"><i class="fa fa-compress" aria-hidden="true"></i> Auto-Size All Columns</button>
+                        <button class="btn order-button-small" data-toggle="modal" data-target="#reportsettings"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</button>
+                    </div>
+                    <div ng-if="orders.length > 0" ag-grid="ordersGridOptions" class="ag-bootstrap" ng-style="gridStyle" id="div_AGGrid"></div>
+                    <br /><br />
+                    <div ng-if="(!orders)" class="bg-info padded">
+                        <span class="glyphicon glyphicon-info-sign"></span> No Records Available
+                    </div>
+                </div>
+
+            </div>
+</form>
+
+<modal title="Report Help" id="reportsettings">
+    <h3>Export Data</h3>
+    Export data by clicking the export button above the search results. The data will be exported in a CSV format.
+    <br /><br />
+
+    <strong>When exporting data notice the following: </strong>
+    <ul>
+        <li>Filtered rows are not included in the export.</li>
+        <li>The sort order is maintained in the export.</li>
+        <li>The order of the columns is maintained in the export.</li>
+    </ul>
+
+    <div ng-show="!filters.MapType">
+        <hr />
+
+        <h3>Resize Columns</h3>
+        Just like Excel, each column can be 'auto resized' by double clicking the right side of the header rather than dragging it. When you do this, the grid will work out the best width to fit the contents of the cells in the column.
+        <hr />
+
+        <h3>Pin Columns</h3>
+        Pin a column by dragging the column to the left or right. The grid will reorder the columns so that 'left pinned' columns come first and 'right pinned' columns come last
+        <hr />
+
+        <h3>Reorder Columns</h3>
+        Reorder columns by dragging the header name to either the left or right.
+        <hr />
+
+        <h3>Sort Columns</h3>
+        Sort a column by clicking on the column header. To do multi-column sorting, hold down shift while clicking the column header.
+        <hr />
+
+        <h3>Filter Columns</h3>
+        Filter columns by clicking the <i class="fa fa-bars"></i> icon when hovering over a header column. You can filter data based on different conditional statements. When a filter is active on a column, the filter icon appears before the column name in the header.
+    </div>
+
+</modal>
