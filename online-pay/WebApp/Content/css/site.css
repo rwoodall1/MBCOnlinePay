@@ -167,7 +167,7 @@ md-toast.md-toast-error-theme { background-color: #e13114; color: #FFFFFF; posit
 .order-button:hover,
 .order-button:focus { background-color: #192c57 !important; color: #fff !important; }
 .ag-header-container {
-  background-color: #A81217;
+  background-color: #192c57;
   color: #fff;
   text-align: left; }
 
@@ -175,7 +175,7 @@ md-toast.md-toast-error-theme { background-color: #e13114; color: #FFFFFF; posit
   border-right: 1px solid #ddd !important; }
 
 .ag-bootstrap .ag-root {
-  border: 1px solid #ddd !important; }
+  border: 1px solid #192c57 !important; }
 
 .ag-cell {
   padding: 4px !important; }
@@ -188,7 +188,7 @@ md-toast.md-toast-error-theme { background-color: #e13114; color: #FFFFFF; posit
   border-right: 1px solid #ddd !important; }
 
 .ag-header {
-  background-color: #A81217 !important; }
+  background-color: #192c57 !important; }
 
 .ag-row-selected {
   background-color: #AAA !important; }

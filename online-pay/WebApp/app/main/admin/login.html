@@ -13,7 +13,7 @@
                     <label class="control-label" trns>School Code:</label>
                     <input type="text" maxlength="6" class="form-control" name="schcode" ng-model="schoolCode" required />
                     <div class="alert alert-danger" role="alert"
-                         ng-if="loginForm.schoolcode.$error.required && loginForm.schoolcode.$dirty">
+                         ng-if="loginForm.schcode.$error.required && loginForm.schcode.$dirty">
                         Enter a school code.
                     </div>
                 </div>
@@ -21,10 +21,10 @@
             <div class="form-group">
                 <div class="col-md-3">
                     <label class="control-label" trns>Password:</label>
-                    <input type="text" maxlength="6" class="form-control" name="password" ng-model="passWord" required />
+                    <input type="text" maxlength="5" class="form-control" name="password" ng-model="passWord" required />
                     <div class="alert alert-danger" role="alert"
                          ng-if="loginForm.password.$error.required && loginForm.password.$dirty">
-                        Enter a school code.
+                        Enter a password.
                     </div>
                 </div>
             </div>
