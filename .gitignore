@@ -70,3 +70,5 @@ online-pay/Services/obj/Debug/Services.csprojResolveAssemblyReference.cache
 *.cache
 *.cache
 online-pay/WebApp/obj/Debug/WebApp.csprojResolveAssemblyReference.cache
+*.force
+online-pay/Utilities/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
