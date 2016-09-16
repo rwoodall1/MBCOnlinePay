@@ -11,7 +11,7 @@
     <div ng-if="!pastCutOffDate">
         <div style="color:#dc0000;font-weight:bold">Check that your Pay Code and School Name below are correct. If they are not, return to the previous page and carefully re-enter your Pay Code.</div>
         <br />
-        <div class="floatLeft" style="color:#045e00;font-weight:bold">Pay Code: {{application.paycode}} </div>
+        <div class="floatLeft" style="color:#045e00;font-weight:bold">Pay Code: {{application.order.paycode}} </div>
         <div class="floatLeft" style="color:#045e00;font-weight:bold">School Name: {{schoolname}} </div>
         <div class="clear"></div>
         <div class="form-group">
@@ -75,7 +75,13 @@
 
             
         </div>
-
+        <div class="grayBox" ng-if="dupOrder && !dupOrderByPass">
+            <span></span>An order with student name {{application.order.studentFirstName}} {{application.order.studentLastName}} has already been made on pay code {{application.paycode}}.</span><br />
+            <span>Do you want to continue with this order? <label>
+    <input type="radio" name="duplicatchkbypass"  value=true ng-model="dupOrderByPass ">Yes
+    <input type="radio" name="duplicatchkbypass" value=false ng-model="dupOrderByPass">No
+</label></span>
+        </div>   
         <div class="form-group">
             <div class="col-md-5">
                 <label>Enter email address for receipt to your inbox</label> <span class="required">*</span><br />
@@ -206,7 +212,7 @@
         </div>
         <br />
        <div style="color:red" ng-if="!onlinePayForm.$valid">Please fill out all information before adding items to the cart.</div>
-       
+        <button type="submit" ng-click="test()" class="btn admin-button" trns>SUBMIT</button>
         <ngcart-addtocart ng-click="checkForm()" is-disabled="validate()" id="{{application.cartid}}" name="{{application.order.yearbookType}}" quantity="{{application.order.yearbookQuantity}}" price="{{basePrice}}" data="application.order">Add to Cart</ngcart-addtocart>(click to add yearbook in cart)<!--+ application.order.iconAmt-->
          <br /><br />
 

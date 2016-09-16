@@ -27,7 +27,7 @@ angular.module('ngCart', ['ngCart.directives'])
 
     }])
 
-    .service('ngCart', ['$rootScope', '$window', 'ngCartItem', 'store', function ($rootScope, $window, ngCartItem, store) {
+    .service('ngCart', ['$rootScope', '$window', 'ngCartItem', 'store','OrderDataService', function ($rootScope, $window, ngCartItem, store,OrderDataService) {
 
         this.init = function(){
             this.$cart = {
@@ -37,27 +37,50 @@ angular.module('ngCart', ['ngCart.directives'])
                 items : []
             };
         };
+       this.checkForDuplicates = function (id, name, price, quantity, data) {
+           var dupchkdata = { StudentFname: data.studentFirstName, StudentLname:data.studentLastName, ShcInvoicenumber:data.paycode }
+           OrderDataService.duplicateOrderChk(dupchkdata).then(function (response) {
 
-        this.addItem = function (id, name, price, quantity, data) {
-      
-               
-                var inCart = this.getItemById(id);
+               if (!response.isSuccessful) {
+                   //don't stop of failure go ahead with order
+                   response.data=false;
+               }
 
-                if (typeof inCart === 'object') {
-                    //Update quantity of an item if it's already in the cart
-                    inCart.setQuantity(quantity, false);
-                    $rootScope.$broadcast('ngCart:itemUpdated', inCart);
-                } else {
-                    var newData = {};
-                    angular.copy(data, newData);
+               if (response.data) {
+                   var result = confirm("An order was found with student name " + data.studentFirstName + ' ' + data.studentLastName + ' made with pay code ' + data.paycode + '. Do you still want to add this item to the cart?');
+                   alert('result='+result)
+                   response.data = result;
+               }
+               alert('final'+response.data)
+               return true;
 
-                    var newItem = new ngCartItem(id, name, price, quantity, newData);
-                    this.$cart.items.push(newItem);
+           });
 
-                    $rootScope.$broadcast('ngCart:itemAdded', newItem);
-                }
 
-                $rootScope.$broadcast('ngCart:change', {});
+        };
+       this.addItem = function (id, name, price, quantity, data) {
+           alert('here')
+               var inCart = this.getItemById(id);
+
+               if (typeof inCart === 'object') {
+                   //Update quantity of an item if it's already in the cart
+                   inCart.setQuantity(quantity, false);
+                   $rootScope.$broadcast('ngCart:itemUpdated', inCart);
+               } else {
+
+                   var newData = {};
+                   angular.copy(data, newData);
+
+                   var newItem = new ngCartItem(id, name, price, quantity, newData);
+                   this.$cart.items.push(newItem);
+
+                   $rootScope.$broadcast('ngCart:itemAdded', newItem);
+               }
+              
+
+               $rootScope.$broadcast('ngCart:change', {});
+
+
          
         };
 

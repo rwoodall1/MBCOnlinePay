@@ -2,16 +2,20 @@
 'use strict';
 
 angular.module('app')
-.controller('ParentPaymentCtrl', ['$rootScope', '$scope', '$state', '$location', '$stateParams', '$localStorage', 'InvoiceDataService', 'NotificationService', 'ngCart',
-    function ($rootScope, $scope, $state, $location, $stateParams, $localStorage, InvoiceDataService, NotificationService, ngCart) {
+.controller('ParentPaymentCtrl', ['$rootScope', '$scope', '$state', '$location', '$stateParams', '$localStorage', 'InvoiceDataService','OrderDataService', 'NotificationService', 'ngCart',
+    function ($rootScope, $scope, $state, $location, $stateParams, $localStorage, InvoiceDataService,OrderDataService, NotificationService, ngCart) {
 
         initialize();
         function initialize() {
+            $scope.dupOrder = false;
+            $scope.dupOrderByPass = false;
             $scope.test = test;
             $scope.application = {};
             $scope.application.order = {};
             $scope.application.order.yearbookType = "Standard Yearbook";
             $scope.application.order.yearbookQuantity = 1;
+            $scope.application.order.studentFirstName = '';
+            $scope.application.order.studentLastName = '';
             $scope.application.order.grade = "";
             $scope.application.order.teacher = "";
             $scope.application.order.icon1 = "";
@@ -58,24 +62,24 @@ angular.module('app')
                 if (typeof $localStorage.paycode === 'undefined' || $localStorage.paycode == null || $localStorage.paycode == '') {
                     $state.go('anon.parent');
                 }else{
-                    $scope.application.paycode = $localStorage.paycode;
+                    $scope.application.order.paycode = $localStorage.paycode;
                     $scope.application.order.invoicenumber = $scope.application.paycode;
                 }
                 
             } else {
 
-                $scope.application.paycode = $stateParams.pcode;
+                $scope.application.order.paycode = $stateParams.pcode;
                 $scope.application.order.invoicenumber = $stateParams.pcode;
                 $localStorage.paycode = $scope.application.paycode;
             }
             $scope.gettingInitValues = true;
-            InvoiceDataService.invoiceInit($scope.application.paycode).then(function (response) {
+            InvoiceDataService.invoiceInit($scope.application.order.paycode).then(function (response) {
                 if (!response.isSuccessful) {
                     NotificationService.displayError(response.error.userMessage);
                     $scope.gettingInitValues = false;
                     return;
                 }
-               
+                console.log(response.data)
                 $scope.schoolname = response.data.schoolname;
                 $scope.application.order.schoolcode = $scope.schoolcode;
                 $scope.application.order.schoolname = $scope.schoolname;
@@ -135,8 +139,8 @@ angular.module('app')
                     $localStorage.$reset();
                     $scope.checkedout = true;
                     //document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/mbc?orderid=' + $scope.neworderid;
-                    //document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/MBCSecure/MbcPayment.aspx?orderid=' + $scope.neworderid;
-                   // document.getElementById('extnForm').submit();
+                    document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/MBCSecure/MbcPayment.aspx?orderid=' + $scope.neworderid;
+                    document.getElementById('extnForm').submit();
                 
             });
         }
@@ -155,7 +159,8 @@ angular.module('app')
             }
         }
         function test() {
-            alert('test')
+            $scope.ngCart = ngCart
+          $scope.ngCart.addItem(id, name, price, q, data)
         }
         function checkForm() {
             
@@ -170,10 +175,22 @@ angular.module('app')
                
              
         }
+        function checkForDuplicateOrder(){
+            var dupchkdata = { StudentFname: $scope.application.order.studentFirstName, StudentLname: $scope.application.order.studentLastName, ShcInvoicenumber: $scope.application.paycode }
+            OrderDataService.duplicateOrderChk(dupchkdata).then(function (response) {
+             
+                if (!response.isSuccessful) {
+                   //don't stop of failure go ahead with order
+                    return false;
+                }
+                return response.data;
+            });
+        }
         function validate() {
-          
-         
-            var retval=false
+        
+            var retval = false
+       
+           
             if($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Foil Yearbook')
             {retval=true;}
             if($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Foil Text'){
@@ -207,14 +224,20 @@ angular.module('app')
                 }
                 
             }
-           
-                     
+          
+            //if (retval == false) {
+            //        if (!$scope.dupOrderByPass && $scope.application.order.studentFirstName != '' && $scope.application.order.studentLastName != '') {
+            //            $scope.dupOrder = checkForDuplicateOrder();
+            //        if ($scope.dupOrder ) {
+            //            retval = true;
+                        
+            //            }
+            //        }
+                
+            //}
+          
             return retval
-              
-
-           
-
-
+         
         }
         function addIcon(q) {
             if ($scope.application.order.iconAmt>0) {
@@ -226,12 +249,22 @@ angular.module('app')
             $scope.basePrice = $scope.basePrice + $scope.application.order.iconAmt;
            
             }
+        function clearExtras() {
+            $scope.application.order.personalizedText = '';
+            $scope.application.order.icon1=''
+            $scope.application.order.icon2=''
+            $scope.application.order.icon3=''
+            $scope.application.order.icon4=''
 
+        }
         function setPrice() {
             $scope.application.order.iconAmt = 0;
             $scope.basePrice = 0;
             $scope.basePrice = $scope.init.basicInvAmt;
+            if ($scope.application.order.yearbookType == "Standard Yearbook") {
+                clearExtras();
 
+            }
             if ($scope.application.order.yearbookType == "Personalized Foil Yearbook") { $scope.basePrice = $scope.init.foilPersAmt; console.log("1" + $scope.basePrice); }
             if ($scope.application.order.yearbookType == "Personalized Foil Text") {  $scope.basePrice = $scope.init.foilTxtAmt; console.log("2" + $scope.basePrice);}
             if ($scope.application.order.yearbookType == "Personalized Ink Yearbook") {  $scope.basePrice = $scope.init.inkPersAmt; console.log("3" + $scope.basePrice);}
