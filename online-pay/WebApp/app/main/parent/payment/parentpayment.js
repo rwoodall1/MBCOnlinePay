@@ -194,7 +194,7 @@ angular.module('app')
                         angular.copy($scope.application.order, $scope.cartObj);
                         $scope.ngCart.addItem($scope.application.cartid, $scope.application.order.yearbookType, $scope.basePrice, $scope.application.order.yearbookQuantity, $scope.application.order)
                     } else {
-                        var confirmResult = confirm("An order for student name " + order.studentfname + " " + order.studentlname + " has already been placed with pay code " + order.orderId + " on " + $filter('date')(order.ordDate) +". \nDo you still want to continue?")
+                        var confirmResult = confirm("An order (" + order.orderId + ") for student name " + order.studentfname + " " + order.studentlname + " has already been placed with pay code " + $scope.application.order.paycode + " on " + $filter('date')(order.ordDate) + ". \nDo you still want to continue?")
                         if (confirmResult) {
                             angular.copy($scope.application.order, $scope.cartObj);
                             $scope.ngCart.addItem($scope.application.cartid, $scope.application.order.yearbookType, $scope.basePrice, $scope.application.order.yearbookQuantity, $scope.application.order)
