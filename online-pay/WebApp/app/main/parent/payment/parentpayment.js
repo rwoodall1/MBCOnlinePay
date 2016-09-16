@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('app')
-.controller('ParentPaymentCtrl', ['$rootScope', '$scope', '$state', '$location', '$stateParams', '$localStorage', 'InvoiceDataService','OrderDataService', 'NotificationService', 'ngCart',
-    function ($rootScope, $scope, $state, $location, $stateParams, $localStorage, InvoiceDataService,OrderDataService, NotificationService, ngCart) {
+.controller('ParentPaymentCtrl', ['$rootScope','$filter', '$scope', '$state', '$location', '$stateParams', '$localStorage', 'InvoiceDataService','OrderDataService', 'NotificationService', 'ngCart',
+    function ($rootScope,$filter, $scope, $state, $location, $stateParams, $localStorage, InvoiceDataService,OrderDataService, NotificationService, ngCart) {
 
         initialize();
         function initialize() {
@@ -39,6 +39,7 @@ angular.module('app')
             $scope.basePrice = 0;
             $scope.application.order.iconAmt = 0;
             $scope.setPrice = setPrice;
+            $scope.addToCart=addToCart;
             $scope.addIcon = addIcon;
             $scope.checkingout = false;
             $scope.neworderid = "";
@@ -79,7 +80,7 @@ angular.module('app')
                     $scope.gettingInitValues = false;
                     return;
                 }
-                console.log(response.data)
+               
                 $scope.schoolname = response.data.schoolname;
                 $scope.application.order.schoolcode = $scope.schoolcode;
                 $scope.application.order.schoolname = $scope.schoolname;
@@ -93,10 +94,9 @@ angular.module('app')
                 $scope.validate = validate;
                 //console.log($scope.init);
                 // var cutOffDate = new Date($scope.init.onlineCuto);
-                console.log($scope.init.onlineCuto)
+               
                 var cutOffDate = addDays(new Date($scope.init.onlineCuto), 1);
-                 console.log(cutOffDate +' cutoff')
-                console.log($scope.currentDate +' current')
+               
                
                 $scope.pastCutOffDate = $scope.currentDate > cutOffDate;
 
@@ -121,6 +121,9 @@ angular.module('app')
             });
 
             $scope.$on('ngCart:itemAdded', function (event, args) {
+                $scope.basePrice = $scope.basePrice - $scope.application.order.iconAmt;
+                $scope.application.order.iconAmt = 0;
+                $scope.textProofRead.value = false;
                 $scope.application.order.lovelinetext = "";
                 $scope.application.order.adType = "";
                 $scope.application.order.personalizedText = "";
@@ -144,6 +147,15 @@ angular.module('app')
                 
             });
         }
+        function setAllFormInputsToDirty() {
+            for (var property in $scope.form) {
+                if ($scope.form.hasOwnProperty(property)) {
+                    if (property.indexOf("$") == -1) {
+                        $scope.form[property].$setDirty();
+                    }
+                }
+            }
+        }
         function addDays(date, days) {
             var result = new Date(date);
             result.setDate(result.getDate() + days);
@@ -159,24 +171,59 @@ angular.module('app')
             }
         }
         function test() {
-            $scope.ngCart = ngCart
-          $scope.ngCart.addItem(id, name, price, q, data)
+           
+            
         }
+        function addToCart() {
+            setAllFormInputsToDirty()
+            validate();
+            if ($scope.application.onlinePay.form.$valid) {
+           
+            var dupchkdata = { StudentFname: $scope.application.order.studentFirstName, StudentLname: $scope.application.order.studentLastName, ShcInvoicenumber: $scope.application.order.paycode }
+           
+                OrderDataService.duplicateOrderChk(dupchkdata).then(function (response) {
+
+                    if (!response.isSuccessful) {
+                        //don't stop of failure go ahead with order
+                        return false;
+                    }
+                    $scope.ngCart = ngCart
+                    var order = response.data;
+                  
+                    if (!order) {
+                        angular.copy($scope.application.order, $scope.cartObj);
+                        $scope.ngCart.addItem($scope.application.cartid, $scope.application.order.yearbookType, $scope.basePrice, $scope.application.order.yearbookQuantity, $scope.application.order)
+                    } else {
+                        var confirmResult = confirm("An order for student name " + order.studentfname + " " + order.studentlname + " has already been placed with pay code " + order.orderId + " on " + $filter('date')(order.ordDate) +". \nDo you still want to continue?")
+                        if (confirmResult) {
+                            angular.copy($scope.application.order, $scope.cartObj);
+                            $scope.ngCart.addItem($scope.application.cartid, $scope.application.order.yearbookType, $scope.basePrice, $scope.application.order.yearbookQuantity, $scope.application.order)
+
+                        }
+                    }
+
+                });
+            }
+
+           
+
+            }
+
         function checkForm() {
             
           
-            setAllFormInputsToDirty();
+            //setAllFormInputsToDirty();
        
-            angular.copy($scope.application.order, $scope.cartObj);
+            //angular.copy($scope.application.order, $scope.cartObj);
           
-            $scope.basePrice = $scope.basePrice - $scope.application.order.iconAmt;
+            //$scope.basePrice = $scope.basePrice - $scope.application.order.iconAmt;
           
-                  $scope.application.order.iconAmt = 0;
+            //      $scope.application.order.iconAmt = 0;
                
              
         }
         function checkForDuplicateOrder(){
-            var dupchkdata = { StudentFname: $scope.application.order.studentFirstName, StudentLname: $scope.application.order.studentLastName, ShcInvoicenumber: $scope.application.paycode }
+            var dupchkdata = { StudentFname: $scope.application.order.studentFirstName, StudentLname: $scope.application.order.studentLastName, ShcInvoicenumber: $scope.application.order.paycode }
             OrderDataService.duplicateOrderChk(dupchkdata).then(function (response) {
              
                 if (!response.isSuccessful) {
@@ -192,15 +239,21 @@ angular.module('app')
        
            
             if($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Foil Yearbook')
-            {retval=true;}
-            if($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Foil Text'){
+            {
+                $scope.form.$valid = false;
+                retval = true;
+            }
+            if ($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Foil Text') {
+                $scope.form.$valid = false;
              retval=true
             }
-            if($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Ink Yearbook'){
+            if ($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Ink Yearbook') {
+                $scope.form.$valid = false;
                 retval=true;
             } 
 
-            if($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Ink Text'){           
+            if ($scope.textProofRead.value == false && $scope.application.order.yearbookType == 'Personalized Ink Text') {
+                $scope.form.$valid = false;
                 retval=true;}
             if(!$scope.onlinePayForm.$valid ){
                 retval=true;
@@ -208,38 +261,31 @@ angular.module('app')
            
             if ($scope.application.order.yearbookType == 'Love Line') {
                 if ($scope.proofReadLoveLine.value == false) {
+                    $scope.form.$valid = false;
                     return true
                 }
                 if ((typeof ($scope.application.order.personalizedText) == 'undefined' || $scope.application.order.personalizedText.length < 1)) {
+                    $scope.form.$valid = false;
                     return true
                 }
             }
             if ($scope.application.order.yearbookType == 'Ad') {
                 if ($scope.proofReadAd.value == false) {
+                    $scope.form.$valid = false;
                     return true
                 }
                 if (typeof $scope.application.order.adType == 'undefined') {
-                    
+                    $scope.form.$valid = false;
                     return true
                 }
                 
             }
           
-            //if (retval == false) {
-            //        if (!$scope.dupOrderByPass && $scope.application.order.studentFirstName != '' && $scope.application.order.studentLastName != '') {
-            //            $scope.dupOrder = checkForDuplicateOrder();
-            //        if ($scope.dupOrder ) {
-            //            retval = true;
-                        
-            //            }
-            //        }
-                
-            //}
-          
             return retval
          
         }
         function addIcon(q) {
+            
             if ($scope.application.order.iconAmt>0) {
                 $scope.basePrice = $scope.basePrice - $scope.application.order.iconAmt;
             }
@@ -247,7 +293,7 @@ angular.module('app')
             $scope.application.order.iconAmt = q * $scope.init.iconAmt;
             
             $scope.basePrice = $scope.basePrice + $scope.application.order.iconAmt;
-           
+         
             }
         function clearExtras() {
             $scope.application.order.personalizedText = '';
