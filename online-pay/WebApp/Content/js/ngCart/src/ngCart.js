@@ -27,7 +27,7 @@ angular.module('ngCart', ['ngCart.directives'])
 
     }])
 
-    .service('ngCart', ['$rootScope', '$window', 'ngCartItem', 'store', function ($rootScope, $window, ngCartItem, store) {
+    .service('ngCart', ['$rootScope', '$window', 'ngCartItem', 'store','OrderDataService', function ($rootScope, $window, ngCartItem, store,OrderDataService) {
 
         this.init = function(){
             this.$cart = {
@@ -37,27 +37,30 @@ angular.module('ngCart', ['ngCart.directives'])
                 items : []
             };
         };
-
-        this.addItem = function (id, name, price, quantity, data) {
       
-               
-                var inCart = this.getItemById(id);
+       this.addItem = function (id, name, price, quantity, data) {
+        
+               var inCart = this.getItemById(id);
 
-                if (typeof inCart === 'object') {
-                    //Update quantity of an item if it's already in the cart
-                    inCart.setQuantity(quantity, false);
-                    $rootScope.$broadcast('ngCart:itemUpdated', inCart);
-                } else {
-                    var newData = {};
-                    angular.copy(data, newData);
+               if (typeof inCart === 'object') {
+                   //Update quantity of an item if it's already in the cart
+                   inCart.setQuantity(quantity, false);
+                   $rootScope.$broadcast('ngCart:itemUpdated', inCart);
+               } else {
 
-                    var newItem = new ngCartItem(id, name, price, quantity, newData);
-                    this.$cart.items.push(newItem);
+                   var newData = {};
+                   angular.copy(data, newData);
 
-                    $rootScope.$broadcast('ngCart:itemAdded', newItem);
-                }
+                   var newItem = new ngCartItem(id, name, price, quantity, newData);
+                   this.$cart.items.push(newItem);
 
-                $rootScope.$broadcast('ngCart:change', {});
+                   $rootScope.$broadcast('ngCart:itemAdded', newItem);
+               }
+              
+
+               $rootScope.$broadcast('ngCart:change', {});
+
+
          
         };
 

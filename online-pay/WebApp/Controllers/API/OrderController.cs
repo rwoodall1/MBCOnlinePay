@@ -212,7 +212,40 @@ namespace Webapp.Controllers.API {
             return Ok(processingResult);
 
         }
+        [HttpPost]
+        [Route("duplicateOrderChk")]
+        public async Task<IHttpActionResult> DuplicateOrderChk(OrdChkData model)
+        {
+            var processingResult = new ServiceProcessingResult<OrderData> { IsSuccessful = true };
+            var parameters = new MySqlParameter[] {
+             new MySqlParameter("@StudentLname",model.StudentLname),
+             new MySqlParameter("@StudentFname",model.StudentFname),
+             new MySqlParameter("@SchInvoiceNumber",model.ShcInvoicenumber)};
+            var sqlText = @"
+              SELECT OrderId,Studentfname,Studentlname,OrdDate From Orders Where StudentLname=@StudentLname and StudentFname=@StudentFname and SchInvoiceNumber=@SchInvoiceNumber";
 
+            var sqlQuery = new SQLQuery();
+            var getOrderResult = await sqlQuery.ExecuteReaderAsync<OrderData>(CommandType.Text, sqlText, parameters);
+            if (!getOrderResult.IsSuccessful)
+            { 
+                processingResult.IsSuccessful = false;
+                processingResult.Error = new ProcessingError("Error Checking for duplicate orders.", "Error checking for duplicate orders.", true, false);
+                ExceptionlessClient.Default.CreateLog("Error Checking for duplicate orders.").Submit();
+                return Ok(processingResult);
+            }
+           var orderList  = (List<OrderData>)getOrderResult.Data;
+            processingResult.Data = orderList[0];
+           
+           
+            return Ok(processingResult);
+
+        }
         //nothing below
+    }
+    public class OrdChkData
+    {
+        public string StudentFname { get; set; }
+        public string StudentLname { get; set; }
+        public string ShcInvoicenumber { get; set; }
     }
 }

@@ -26,28 +26,27 @@ angular.module('app')
             $scope.addingTeacher = false;
             $scope.getTeachers = getTeachers;
             $scope.orders = {};
-          $scope.orderColumnDefs = [
-                  { headerName: "Order Id", field: "orderId", headerTooltip: "Order Id", width:60,filterParams: { apply: true } },
-                  { headerName: "Date", field: "ordDate", headerTooltip: "Order Date",minwidth:100, width:100, filterParams: { apply: true }, template: '<span>{{data.ordDate | date}}</span>' },
-                  { headerName: "First Name", headerTooltip: "First Name", field: "studentfname", width: 100, },
-                  { headerName: "Last Name", field: "studentlname", headerTooltip: "Last Name", width: 100, filterParams: { apply: true } },
-                  { headerName: "Item", field: "booktype", headerTooltip: "Item", width: 100, filterParams: { apply: true } },
-                  { headerName: "Item Total", field: "itemtotal", headerTooltip: "Item Total", width: 100, template: '<span>{{data.itemtotal | currency}}</span>' },
-                  { headerName: "Teacher", field: "teacher", headerTooltip: "Teacher", width: 130,filterParams: { apply: true } },
-                  { headerName: "Grade", field: "grade", headerTooltip: "Grade", width: 130, },
-                  { headerName: "Pay Type", field: "paytype", width: 130, hide: true },
-                  { headerName: "Book Type", field: "booktype", width: 130, hide: true },
-                  { headerName: "Email", field: "emailaddress", width: 130, hide: true },
-                  { headerName: "Icon1", field: "icon1", width: 130, hide: true },
-                  { headerName: "Icon2", field: "icon2", width: 130, hide: true },
-                  { headerName: "Icon3", field: "icon3", width: 130, hide: true },
-                  { headerName: "Icon4", field: "icon4", width: 130, hide: true },
-                  { headerName: "Item Amount", field: "itemAmount", width: 130, hide: true },
-                  { headerName: "Qty", field: "itemqty", width: 130, hide: true },
-                  { headerName: "Email", field: "emailaddress", width: 130, hide: true },
-                  { headerName: "Text", field: "perstext1", width: 130, hide: true },
-                  { headerName: "Trans Id", field: "transid", width: 130, hide: true },
-               ];
+            $scope.orderColumnDefs = [
+                { headerName: "Grade", field: "grade", headerTooltip: "Grade", width: 130, },
+                { headerName: "Teacher", field: "teacher", headerTooltip: "Teacher", width: 130,filterParams: { apply: true } },
+                { headerName: "First Name", headerTooltip: "First Name", field: "studentfname", width: 100, },
+                { headerName: "Last Name", field: "studentlname", headerTooltip: "Last Name", width: 100, filterParams: { apply: true } },
+                { headerName: "Item", field: "booktype", headerTooltip: "Item", width: 100, filterParams: { apply: true } },
+                {headerName: "Text", field: "perstext1", width: 130, hide: true },
+                { headerName: "Icon1", field: "icon1", width: 130, hide: true },
+                { headerName: "Icon2", field: "icon2", width: 130, hide: true },
+                { headerName: "Icon3", field: "icon3", width: 130, hide: true },
+                { headerName: "Icon4", field: "icon4", width: 130, hide: true },
+                {headerName: "Qty", field: "itemqty", width: 130, hide: true },
+                { headerName: "Item Amount", field: "itemAmount", width: 130, hide: true },
+                {headerName: "Item Total", field: "itemtotal", headerTooltip: "Item Total", width: 100, template: '<span>{{data.itemtotal | currency}}</span>' },
+                { headerName: "Order Id", field: "orderId", headerTooltip: "Order Id", width:60,filterParams: { apply: true } },
+                { headerName: "Date", field: "ordDate", headerTooltip: "Order Date",minwidth:100, width:100, filterParams: { apply: true }, template: '<span>{{data.ordDate | date}}</span>' },
+                { headerName: "Email", field: "emailaddress", width: 130, hide: true },                
+                { headerName: "Trans Id", field: "transid", width: 130, hide: true },                
+                { headerName: "Pay Type", field: "paytype", width: 130, hide: true },
+             
+                  ];
             $scope.ordersGridOptions ={}; 
             $scope.teacherColumnDefs = [
                 { headerName: "", field: "", minwidth: 50, width:60, template: '<span><a ng-click="deleteTeacher(data.id)" class="text-link">Delete</a></span>' },
