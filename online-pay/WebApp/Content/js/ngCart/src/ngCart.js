@@ -37,29 +37,9 @@ angular.module('ngCart', ['ngCart.directives'])
                 items : []
             };
         };
-       this.checkForDuplicates = function (id, name, price, quantity, data) {
-           var dupchkdata = { StudentFname: data.studentFirstName, StudentLname:data.studentLastName, ShcInvoicenumber:data.paycode }
-           OrderDataService.duplicateOrderChk(dupchkdata).then(function (response) {
-
-               if (!response.isSuccessful) {
-                   //don't stop of failure go ahead with order
-                   response.data=false;
-               }
-
-               if (response.data) {
-                   var result = confirm("An order was found with student name " + data.studentFirstName + ' ' + data.studentLastName + ' made with pay code ' + data.paycode + '. Do you still want to add this item to the cart?');
-                   alert('result='+result)
-                   response.data = result;
-               }
-               alert('final'+response.data)
-               return true;
-
-           });
-
-
-        };
+      
        this.addItem = function (id, name, price, quantity, data) {
-           alert('here')
+        
                var inCart = this.getItemById(id);
 
                if (typeof inCart === 'object') {

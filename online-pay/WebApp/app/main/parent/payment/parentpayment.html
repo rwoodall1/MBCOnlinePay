@@ -117,14 +117,16 @@
             <br /><br />
             <div ng-repeat="ad in availableAdTypes">
                 <label>
-                    <input type="radio" name="adType" ng-change="setPrice()" value="{{ad}}" ng-model="application.order.adType"> {{ad}}
+                    <input type="radio" name="adType1" ng-change="setPrice()" value="{{ad}}" ng-model="application.order.adType"> {{ad}}
                 </label>
+                <input ng-model="application.order.adType" name="adType" required hidden />
             </div>
             <br />
             <input type="checkbox" class="horizontal-input"
+                   required
                    ng-model="proofReadAd.value" /><strong>I acknowledge that if I do not submit my designed ad by the designated date it will not appear in the yearbook.</strong>
             <br /> <span style="color:#dc0000;font-size:18px">(You will be redirected to another site to create your ad after payment is made.)</span>
-            <br /><div style="color:red" ng-if="!onlinePayForm.$valid || validate()">Please fill out all information and select and ad before adding items to the cart.</div>
+            <br /><div style="color:red" ng-if="!onlinePayForm.$valid && onlinePayForm.adType.$dirty">Please fill out all information and select and ad before adding items to the cart.</div>
         </div>
 
         <div class="grayBox" ng-if="application.order.yearbookType=='Love Line'">
@@ -138,6 +140,7 @@
             (ex Love Line:Mya we are so proud of you! Good luck in Middle School! Love Mom and Dad)
             <br /><br />
             <input type="checkbox" class="horizontal-input"
+                   required
                    ng-model="proofReadLoveLine.value" /><strong>PLEASE CHECK YOUR GRAMMAR AND SPELLING, TEXT WILL BE PRINTED AS SUBMITTED.</strong>
         </div>
         <div style="color:red;font-size:x-large" ng-if="application.order.yearbookType=='Personalized Picture Yearbook'"><strong>The student name and portrait will be used.</strong> </div>
@@ -171,7 +174,8 @@
             </script>
             <input type="checkbox" class="horizontal-input"
                   name="proofRead" ng-model="textProofRead.value" 
-                    /> <strong>I have proofread the text I’ve entered and agree that the personalization is approved to print. This is the final review of my personalization and no edits can be made after submission.</strong><i style="color:red"> Check proof read memo is required.</i>
+                   required />
+             <strong>I have proofread the text I’ve entered and agree that the personalization is approved to print. This is the final review of my personalization and no edits can be made after submission.</strong><i style="color:red"> Check proof read memo is required.</i>
             <div ng-if="init.inkPers=='1' || init.foilPers=='1'">
                 <br /><br />
                 Choose Your Icons <span style="font-size:10px">(Icons are $1.25 extra per icon)</span> <br /><br />
@@ -212,8 +216,8 @@
         </div>
         <br />
        <div style="color:red" ng-if="!onlinePayForm.$valid">Please fill out all information before adding items to the cart.</div>
-        <button type="submit" ng-click="test()" class="btn admin-button" trns>SUBMIT</button>
-        <ngcart-addtocart ng-click="checkForm()" is-disabled="validate()" id="{{application.cartid}}" name="{{application.order.yearbookType}}" quantity="{{application.order.yearbookQuantity}}" price="{{basePrice}}" data="application.order">Add to Cart</ngcart-addtocart>(click to add yearbook in cart)<!--+ application.order.iconAmt-->
+        <button type="submit" ng-click="addToCart()" class="btn btn-sm btn-primary" trns>Add To Cart</button>
+        <!--<ngcart-addtocart ng-click="checkForm()" is-disabled="validate()" id="{{application.cartid}}" name="{{application.order.yearbookType}}" quantity="{{application.order.yearbookQuantity}}" price="{{basePrice}}" data="application.order">Add to Cart</ngcart-addtocart>(click to add yearbook in cart)--><!--+ application.order.iconAmt-->
          <br /><br />
 
         Repeat step after adding to cart if ordering yearbooks for multiple students.

@@ -216,13 +216,13 @@ namespace Webapp.Controllers.API {
         [Route("duplicateOrderChk")]
         public async Task<IHttpActionResult> DuplicateOrderChk(OrdChkData model)
         {
-            var processingResult = new ServiceProcessingResult<bool> { IsSuccessful = true };
+            var processingResult = new ServiceProcessingResult<OrderData> { IsSuccessful = true };
             var parameters = new MySqlParameter[] {
              new MySqlParameter("@StudentLname",model.StudentLname),
              new MySqlParameter("@StudentFname",model.StudentFname),
              new MySqlParameter("@SchInvoiceNumber",model.ShcInvoicenumber)};
             var sqlText = @"
-              SELECT OrderId From Orders Where StudentLname=@StudentLname and StudentFname=@StudentFname and SchInvoiceNumber=@SchInvoiceNumber";
+              SELECT OrderId,Studentfname,Studentlname,OrdDate From Orders Where StudentLname=@StudentLname and StudentFname=@StudentFname and SchInvoiceNumber=@SchInvoiceNumber";
 
             var sqlQuery = new SQLQuery();
             var getOrderResult = await sqlQuery.ExecuteReaderAsync<OrderData>(CommandType.Text, sqlText, parameters);
@@ -233,12 +233,9 @@ namespace Webapp.Controllers.API {
                 ExceptionlessClient.Default.CreateLog("Error Checking for duplicate orders.").Submit();
                 return Ok(processingResult);
             }
-            var orderlist = (List<OrderData>)getOrderResult.Data;
-            if (orderlist.Count > 0)
-            {
-                processingResult.Data = true;
-            }
-            else { processingResult.Data = false; }
+           var orderList  = (List<OrderData>)getOrderResult.Data;
+            processingResult.Data = orderList[0];
+           
            
             return Ok(processingResult);
 
