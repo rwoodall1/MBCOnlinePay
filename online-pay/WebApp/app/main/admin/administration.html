@@ -70,7 +70,13 @@
                  ng-if="(adminForm.teacher.$error.required && adminForm.teacher.$dirty|| (adminForm.grade.$error.required && adminForm.grade.$dirty))">
                 <trns>Teacher name and grade are required.</trns>
             </div>
-           
+            <div class="row" style="margin:2px">
+                
+                <div class="col-sm-4">
+                    <i>Teacher names cannot be edited, if you need to make a change just delete the existing name and then create a new one.</i>  
+                    
+                </div>
+            </div>
             <div class="row" style="margin:2px">
                 <div class="col-sm-3"></div>
                     <div class="col-sm-4">

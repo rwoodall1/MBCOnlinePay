@@ -171,6 +171,22 @@ angular.module('app')
     }])
     .service('OrderDataService', ['$http', '$q', '$rootScope', 'globalConstants', 'NotificationService', function ($http, $q, $rootScope, globalConstants, NotificationService) {
         var orderApiPrefix = 'api/order/';
+        var duplicateOrderChk = function (dupchkdata) {
+            var defer = $q.defer();
+
+            $http.post(orderApiPrefix + 'duplicateOrderChk',dupchkdata).
+              success(function (data, status, headers, config) {
+                  defer.resolve(data);
+              }).
+              error(function (data, status, headers, config) {
+                  defer.resolve(null);
+              });
+
+            return defer.promise;
+        }
+        
+
+   
         var getOrders = function (invno) {
             var defer = $q.defer();
 
@@ -185,8 +201,8 @@ angular.module('app')
             return defer.promise;
         }
         return {
-            getOrders:getOrders
-              
+            getOrders:getOrders,
+            duplicateOrderChk  
         };
 
     }])

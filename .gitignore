@@ -58,5 +58,20 @@ online-pay/ApiBindingModels/bin/Debug/ApiBindingModels.pdb
 online-pay/ApiBindingModels/bin/Debug/Common.Logging.xml
 *.xml
 *.cache
+<<<<<<< HEAD
+=======
 online-pay/ApiBindingModels/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.cache
+>>>>>>> refs/remotes/origin/develop
+*.cache
+online-pay/Domain/obj/Debug/Domain.csprojResolveAssemblyReference.cache
+*.cache
+online-pay/Services/obj/Debug/Services.csprojResolveAssemblyReference.cache
+*.cache
+*.cache
+online-pay/WebApp/obj/Debug/WebApp.csprojResolveAssemblyReference.cache
+*.force
+online-pay/Utilities/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.cache
+online-pay/WebApp/obj/Release/WebApp.csprojResolveAssemblyReference.cache
 *.cache

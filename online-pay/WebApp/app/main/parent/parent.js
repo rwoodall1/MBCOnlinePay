@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('app')
-.controller('ParentCtrl', ['$rootScope', '$scope', '$state', '$location', 'InvoiceDataService', 'NotificationService',
-    function ($rootScope, $scope, $state, $location, InvoiceDataService, NotificationService) {
+.controller('ParentCtrl', ['$rootScope', '$scope', '$state', '$location', 'NotificationService','InvoiceDataService',
+    function ($rootScope, $scope, $state, $location,NotificationService, InvoiceDataService) {
        
         initialize();
 
