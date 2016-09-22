@@ -32,6 +32,8 @@ namespace ApiBindingModels {
         public string Icon2 { get; set; }
         public string Icon3 { get; set; }
         public string Icon4 { get; set; }
+        public string Payerfname { get; set; }
+        public string Payerlname { get; set; }
 
     }
         public class CheckoutRequestBindingModel {

@@ -202,7 +202,7 @@ angular.module('app')
         }
         return {
             getOrders:getOrders,
-            duplicateOrderChk  
+            duplicateOrderChk: duplicateOrderChk
         };
 
     }])

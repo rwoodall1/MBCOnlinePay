@@ -8,7 +8,7 @@ angular.module('app')
         initialize();
 
         function initialize() {
-          
+         
             $scope.application = {};
             $scope.application.onlinePay = {};
             $scope.products = [];

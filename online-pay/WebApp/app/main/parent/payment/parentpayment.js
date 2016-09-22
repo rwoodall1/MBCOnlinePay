@@ -141,8 +141,8 @@ angular.module('app')
                     $scope.neworderid = args.data;
                     $localStorage.$reset();
                     $scope.checkedout = true;
-                    //document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/mbc?orderid=' + $scope.neworderid;
-                    document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/MBCSecure/MbcPayment.aspx?orderid=' + $scope.neworderid;
+                    document.getElementById('extnForm').action = 'https://mbc.securepaymentportal.com/mbc/parent?orderid=' + $scope.neworderid;
+                    //document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/MBCSecure/MbcPayment.aspx?orderid=' + $scope.neworderid;
                     document.getElementById('extnForm').submit();
                 
             });
@@ -190,7 +190,8 @@ angular.module('app')
                     $scope.ngCart = ngCart
                     var order = response.data;
                   
-                    if (!order) {
+                    if (order == null) {
+                        alert('order')
                         angular.copy($scope.application.order, $scope.cartObj);
                         $scope.ngCart.addItem($scope.application.cartid, $scope.application.order.yearbookType, $scope.basePrice, $scope.application.order.yearbookQuantity, $scope.application.order)
                     } else {

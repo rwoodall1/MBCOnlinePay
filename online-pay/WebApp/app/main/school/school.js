@@ -39,7 +39,7 @@ angular.module('app')
          if (cust != null) {
              //send to paysite
              //$state.go('anon.parentpayment', { pcode: $scope.application.paycode });
-             window.location("https://www.securepaymentportal.com/MBCSecure/mbcschool?schcode="+cust.schcode+"&schname="+cust.schname)
+             window.location = "https://mbc.securepaymentportal.com/mbc/school/?schcode=" + cust.schcode + "&schname=" + cust.schname
 
          } else {//mark school not found
               

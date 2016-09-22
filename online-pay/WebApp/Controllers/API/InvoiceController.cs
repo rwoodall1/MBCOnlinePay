@@ -29,6 +29,8 @@ namespace Webapp.Controllers.API {
         public async Task<IHttpActionResult> Login(Credentials cred)
         {
             var processingResult = new ServiceProcessingResult<LoginReturn> { IsSuccessful = true };
+            
+
             try
             {
                 var sqlQuery = "SELECT schcode,schname,invno FROM InvoiceInfo WHERE Schcode=@Schcode AND Invno=@Invno";
@@ -43,11 +45,17 @@ namespace Webapp.Controllers.API {
                     return Ok(processingResult);
                 }
                 var retval = (List<LoginReturn>)getLoginResult.Data;
+                if (retval == null)
+                {
+                    processingResult.IsSuccessful = false;
+                    processingResult.Error = new ProcessingError("Improper Credeintials.", "Improper Credentials.", true, false);
+                    return Ok(processingResult);
+                }
                 if (retval.Count==1) {
                     processingResult.Data =retval[0]; }
                 else {
                     processingResult.IsSuccessful = false;
-                    processingResult.Error = new ProcessingError("Failed to login.", "Failed to login.", true, false);
+                    processingResult.Error = new ProcessingError("Improper Credeintials.", "Improper Credentials.", true, false);
                 }
                 return Ok(processingResult);
 
@@ -56,7 +64,9 @@ namespace Webapp.Controllers.API {
             {
                 processingResult.IsSuccessful = false;
                 processingResult.Error = new ProcessingError("Failed to login.", "Failed to login.", true, false);
-                ex.ToExceptionless().Submit();
+                ex.ToExceptionless()
+                    .SetMessage("Login Failed")
+                    .Submit();
                 return Ok(processingResult);
             }
 
@@ -65,6 +75,7 @@ namespace Webapp.Controllers.API {
         [Route("invoiceCodeExist")]
         public async Task<IHttpActionResult> InvoiceCodeExist(string invNumber) {
             var processingResult = new ServiceProcessingResult<bool> { IsSuccessful = true };
+            
             try {
                 var sqlQuery = "SELECT Invno FROM InvoiceInfo WHERE Invno=@InvNumber";
                 MySqlParameter[] parameters = new MySqlParameter[] { new MySqlParameter("@InvNumber", invNumber) };
@@ -205,18 +216,27 @@ namespace Webapp.Controllers.API {
                 }
 
                 processingResult.IsSuccessful = true;
-                var result=(List<SchoolExist>)getSchoolResult.Data;
-                processingResult.Data = result[0];//only one record
-            
 
+                var result = (List<SchoolExist>)getSchoolResult.Data;
+                if (result == null)
+                {
+                    processingResult.Data = null;
+                }
+                else
+                {
+                    processingResult.Data = result[0];//only one record }
+
+                }
             }
             catch (Exception ex)
             {
                 ex.ToExceptionless()
                     .SetMessage("Error looing up school code.")
                     .Submit();
-                    
-                  
+                processingResult.IsSuccessful = false;
+                processingResult.Error = new ProcessingError("Error looking up school.", "Error looking up school.", true, false);
+                return Ok(processingResult);
+
             }
             return Ok(processingResult);
         }

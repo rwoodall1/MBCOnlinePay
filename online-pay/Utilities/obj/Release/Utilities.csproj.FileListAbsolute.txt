@@ -11,6 +11,12 @@ F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Rel
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\Common.Logging.Core.xml
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\EntityFramework.xml
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\EntityFramework.SqlServer.xml
-F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\obj\Release\Utilities.csprojResolveAssemblyReference.cache
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\obj\Release\Utilities.dll
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\obj\Release\Utilities.pdb
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\Exceptionless.dll
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\Exceptionless.Mvc.dll
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\Exceptionless.WebApi.dll
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\Exceptionless.xml
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\Exceptionless.Mvc.xml
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\bin\Release\Exceptionless.WebApi.xml
+F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Utilities\obj\Release\Utilities.csprojResolveAssemblyReference.cache

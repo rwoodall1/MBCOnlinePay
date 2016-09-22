@@ -45,7 +45,8 @@ angular.module('app')
                 { headerName: "Email", field: "emailaddress", width: 130, hide: true },                
                 { headerName: "Trans Id", field: "transid", width: 130, hide: true },                
                 { headerName: "Pay Type", field: "paytype", width: 130, hide: true },
-             
+                { headerName: "Payer First Name", field: "payerfname", width: 130, hide: true },
+                { headerName: "Pay Last Name", field: "payerlname", width: 130, hide: true },
                   ];
             $scope.ordersGridOptions ={}; 
             $scope.teacherColumnDefs = [

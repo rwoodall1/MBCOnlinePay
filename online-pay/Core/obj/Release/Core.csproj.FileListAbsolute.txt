@@ -15,6 +15,5 @@ F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Core\bin\Release\
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Core\bin\Release\EntityFramework.SqlServer.xml
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Core\bin\Release\Microsoft.AspNet.Identity.Core.xml
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Core\bin\Release\Microsoft.AspNet.Identity.EntityFramework.xml
-F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Core\obj\Release\Core.csprojResolveAssemblyReference.cache
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Core\obj\Release\Core.dll
 F:\InetPub\wwwroot\GitHub\MBCTOAngular\MBCOnlinePay\online-pay\Core\obj\Release\Core.pdb
