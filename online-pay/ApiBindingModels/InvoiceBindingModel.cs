@@ -33,7 +33,8 @@ namespace ApiBindingModels {
         public decimal HalfAdlineAmt { get; set; }
         public decimal QuaterAdlineAmt { get; set; }
         public decimal EightAdlineAmt { get; set; }
-        public string OnlineCuto { get; set; }
+        public DateTime OnlineCuto { get; set; }
+        public DateTime Adcuto { get; set; }
         public string schoolname { get; set; }
     }
 
@@ -71,7 +72,8 @@ namespace ApiBindingModels {
          public string halfadlineamt { get; set; } 
          public string quarteradlineamt { get; set; } 
          public string eighthadlineamt { get; set; } 
-         public string onlinecuto { get; set; }
+         public DateTime onlinecuto { get; set; }
+         public DateTime adcuto { get; set; }
          public string schoolname { get; set; }
     }
 

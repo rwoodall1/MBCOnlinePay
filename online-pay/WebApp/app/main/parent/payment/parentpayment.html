@@ -97,7 +97,7 @@
         <br /><br>
         <div ng-repeat="yearbook in availableYearbookTypes">
             <label>
-                <input type="radio" name="yearbookType" ng-change="setPrice()" value="{{yearbook}}" ng-model="application.order.yearbookType"> {{yearbook}}
+                <input ng-disabled="yearbook=='Ad'&& pastAdOffDate" type="radio" name="yearbookType" ng-change="setPrice()" value="{{yearbook}}" ng-model="application.order.yearbookType"> {{yearbook}} <span style="color:red;font-size:x-small" ng-if="yearbook=='Ad'&& pastAdOffDate">(Past Ad cut off date.) </span>
             </label>
         </div>
         
@@ -124,7 +124,7 @@
             <br />
             <input type="checkbox" class="horizontal-input"
                    required
-                   ng-model="proofReadAd.value" /><strong>I acknowledge that if I do not submit my designed ad by the designated date it will not appear in the yearbook.</strong>
+                   ng-model="proofReadAd.value" /><strong>I acknowledge that if I do not submit my designed ad by {{init.adcuto | date}} it will not appear in the yearbook.</strong>
             <br /> <span style="color:#dc0000;font-size:18px">(You will be redirected to another site to create your ad after payment is made.)</span>
             <br /><div style="color:red" ng-if="!onlinePayForm.$valid && onlinePayForm.adType.$dirty">Please fill out all information and select and ad before adding items to the cart.</div>
         </div>
@@ -177,19 +177,19 @@
                    required />
              <strong>I have proofread the text I’ve entered and agree that the personalization is approved to print. This is the final review of my personalization and no edits can be made after submission.</strong><i style="color:red"> Check proof read memo is required.</i>
             <div ng-if="init.inkPers=='1' || init.foilPers=='1'">
-                <br /><br />
-                Choose Your Icons <span style="font-size:10px">(Icons are $1.25 extra per icon)</span> <br /><br />
+              
+                <span ng-if="init.foilPers=='1'"> Choose Your Icons <span style="font-size:10px">(Icons are $1.25 extra per icon)</span></span> <br />
                 <div class="row">
                     <div class="col-md-3">
                         First Icon <br />
-                        <select name="icon1" class="form-control" ng-model="application.order.icon1" ng-change="addIcon(1)" ng-options="I.caption for I in icons">
+                        <select name="icon1" class="form-control" ng-model="application.order.icon1" ng-change="addIcon(1,application.order.icon1)" ng-options="I.caption for I in icons">
                             <option value="">-- Please Select --</option>
                         </select>
                         <img ng-show="application.order.icon1 != null && application.order.icon1!=''" ng-src="/Content/images/Icons/{{application.order.icon1.ivalue}}.jpg" alt="Icon" style="margin-top:10px;height:65px;width:65px" />
                     </div>
                     <div class="col-md-3">
                         Second Icon<br />
-                        <select name="icon2" class="form-control" ng-model="application.order.icon2" ng-change="addIcon(2)" ng-options="I.caption for I in icons" ng-disabled="application.order.icon1=='' || application.order.icon1==null">
+                        <select name="icon2" class="form-control" ng-model="application.order.icon2" ng-change="addIcon(2,application.order.icon2)" ng-options="I.caption for I in icons" ng-disabled="application.order.icon1=='' || application.order.icon1==null">
                             <option value="">-- Please Select --</option>
                         </select>
 
@@ -197,7 +197,7 @@
                     </div>
                     <div class="col-md-3">
                         Third Icon <br />
-                        <select name="icon3" class="form-control" ng-model="application.order.icon3" ng-change="addIcon(3)" ng-options="I.caption for I in icons" ng-disabled="application.order.icon2=='' || application.order.icon2==null">
+                        <select name="icon3" class="form-control" ng-model="application.order.icon3" ng-change="addIcon(3,application.order.icon3)" ng-options="I.caption for I in icons" ng-disabled="application.order.icon2=='' || application.order.icon2==null">
                             <option value="">-- Please Select --</option>
                         </select>
 
@@ -205,7 +205,7 @@
                     </div>
                     <div class="col-md-3">
                         Fourth Icon <br />
-                        <select name="icon4" class="form-control" ng-model="application.order.icon4"ng-change="addIcon(4)"  ng-options="I.caption for I in icons" ng-disabled="application.order.icon3=='' || application.order.icon3==null">
+                        <select name="icon4" class="form-control" ng-model="application.order.icon4" ng-change="addIcon(4,application.order.icon4)" ng-options="I.caption for I in icons" ng-disabled="application.order.icon3=='' || application.order.icon3==null">
                             <option value="">-- Please Select --</option>
                         </select>
 
