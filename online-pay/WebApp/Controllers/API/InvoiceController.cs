@@ -104,7 +104,7 @@ namespace Webapp.Controllers.API {
             try
             {
                 //var sqlQuery = @"SELECT I.schcode, I.invno, D.teacher, D.id FROM invoiceinfo I LEFT JOIN dropdowninfo D ON I.schcode=D.schcode  WHERE I.invno=@InvNumber ORDER BY D.teacher";
-                var sqlQuery = @"SELECT I.schcode, I.invno, D.teacher, D.id FROM invoiceinfo I INNER JOIN dropdowninfo D ON I.schcode=D.schcode  WHERE I.invno=@InvNumber ORDER BY D.teacher";
+                var sqlQuery = @"SELECT I.schcode, I.invno, D.teacher,D.grade, D.id FROM invoiceinfo I INNER JOIN dropdowninfo D ON I.schcode=D.schcode  WHERE I.invno=@InvNumber ORDER BY D.teacher";
                 MySqlParameter[] parameters = new MySqlParameter[] { new MySqlParameter("@InvNumber", invNumber) };
                 var sqlQueryService = new SQLQuery();
                 var getInvoiceTeacherLookupResult = await sqlQueryService.ExecuteReaderAsync<InvoiceTeacherLookupBindingModel>(CommandType.Text, sqlQuery, parameters);
