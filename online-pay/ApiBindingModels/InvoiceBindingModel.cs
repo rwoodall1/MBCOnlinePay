@@ -90,6 +90,7 @@ namespace ApiBindingModels {
     public class InvoiceTeacherLookupBindingModel{
         public string schcode { get; set; }
         public string invno { get; set; }
+        public string grade { get; set; }
         public string teacher { get; set; }
         public string id { get; set; }
     }
