@@ -52,18 +52,20 @@ angular.module('app', [
         })
         .state('anon.default', {
             url: '/',
-            templateUrl: '/app/main/parent/parent.html',
-            controller: 'ParentCtrl',
+            templateUrl: '/app/main/home/home.html',
+            controller: 'HomeCtrl',
         })
         .state('anon.parent', {
             url: '/parent',
             templateUrl: '/app/main/parent/parent.html',
             controller: 'ParentCtrl',
+            data: { pageTitle: 'Parent Login' }
         })
         .state('anon.parentpayment', {
             url: '/parent/payment',
             templateUrl: '/app/main/parent/payment/parentpayment.html',
             controller: 'ParentPaymentCtrl',
+            data: { pageTitle: 'Parent Order Form' },
             params: {
                 pcode: null          
             },
@@ -72,12 +74,13 @@ angular.module('app', [
             url: '/login',
             templateUrl: '/app/main/admin/login.html',
             controller: 'LoginCtrl',
-           
+            data: { pageTitle: 'Administrator Login' }
         })
          .state('anon.administration', {
              url: '/admin',
              templateUrl: '/app/main/admin/administration.html',
              controller: 'AdminCtrl',
+             data: { pageTitle: 'Administration' },
              params: {
                  invoicenumber: null,
                  schcode: null,
@@ -88,6 +91,7 @@ angular.module('app', [
             url: '/school',
             templateUrl: '/app/main/school/school.html',
             controller: 'SchoolCtrl',
+            data: { pageTitle: 'School Login' }
         });
         
 
@@ -103,6 +107,8 @@ angular.module('app', [
             , search = $location.search()
             , params
         ;
+       
+
 
         // check to see if the path already ends in '/'
         if (path[path.length - 1] === '/') {
@@ -156,8 +162,9 @@ angular.module('app', [
     showErrorsConfigProvider.showSuccess(true);
 }])
 
-.run(['$rootScope', '$templateCache', '$state', 'globalConstants', 'NotificationService', 'UtilService', '$window','$location', function ($rootScope, $templateCache, $state, globalConstants, NotificationService, UtilService, $window,$location) {
-  
+.run(['$rootScope', '$templateCache', '$state', '$stateParams', 'globalConstants', 'NotificationService', 'UtilService', '$window','$location', function ($rootScope, $templateCache, $state,$stateParams, globalConstants, NotificationService, UtilService, $window,$location) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
     UtilService.setServerVars().then(function (response) {
         $rootScope.serverVars = response;
     });
@@ -168,6 +175,13 @@ angular.module('app', [
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof (current) !== 'undefined') {
             $templateCache.remove(current.templateUrl);
+        }
+    });
+    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+
+        if (current.hasOwnProperty('$$route')) {
+
+            $rootScope.title = $route.title;
         }
     });
 }]);

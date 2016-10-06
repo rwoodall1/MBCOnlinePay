@@ -90,16 +90,18 @@ angular.module('app')
                
                 $scope.icons = response.data.icons;
                 $scope.init = response.data;
+          
                 $scope.application.order.schCode = $scope.init.schCode;
                 $scope.validate = validate;
                 //console.log($scope.init);
                 // var cutOffDate = new Date($scope.init.onlineCuto);
                
                 var cutOffDate = addDays(new Date($scope.init.onlineCuto), 1);
-               
-               
+                var adCutOffDate = addDays(new Date($scope.init.adcuto), 1);
+                $scope.pastAdOffDate = $scope.currentDate > adCutOffDate
+             
                 $scope.pastCutOffDate = $scope.currentDate > cutOffDate;
-
+             
    
                 if ($scope.init.foilPers == "1") { $scope.availableYearbookTypes.push("Personalized Foil Yearbook");}
                 if ($scope.init.foilTxt == "1") { $scope.availableYearbookTypes.push("Personalized Foil Text"); }
@@ -141,8 +143,8 @@ angular.module('app')
                     $scope.neworderid = args.data;
                     $localStorage.$reset();
                     $scope.checkedout = true;
-                    //document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/mbc?orderid=' + $scope.neworderid;
-                    document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/MBCSecure/MbcPayment.aspx?orderid=' + $scope.neworderid;
+                    document.getElementById('extnForm').action = 'https://mbc.securepaymentportal.com/mbc/parent?orderid=' + $scope.neworderid;
+                    //document.getElementById('extnForm').action = 'https://www.securepaymentportal.com/MBCSecure/MbcPayment.aspx?orderid=' + $scope.neworderid;
                     document.getElementById('extnForm').submit();
                 
             });
@@ -190,7 +192,8 @@ angular.module('app')
                     $scope.ngCart = ngCart
                     var order = response.data;
                   
-                    if (!order) {
+                    if (order == null) {
+                       
                         angular.copy($scope.application.order, $scope.cartObj);
                         $scope.ngCart.addItem($scope.application.cartid, $scope.application.order.yearbookType, $scope.basePrice, $scope.application.order.yearbookQuantity, $scope.application.order)
                     } else {
@@ -284,16 +287,24 @@ angular.module('app')
             return retval
          
         }
-        function addIcon(q) {
-            
+        function addIcon(q, val) {
+           
+            if (val == null) {
+                q = q - 1
+               
+            }
+            if ($scope.application.order.yearbookType == "Personalized Ink Yearbook") {
+                return;
+            }
             if ($scope.application.order.iconAmt>0) {
                 $scope.basePrice = $scope.basePrice - $scope.application.order.iconAmt;
+                alert('appordericonamount>0 ' + $scope.basePrice)
             }
             $scope.application.order.iconAmt = 0;
             $scope.application.order.iconAmt = q * $scope.init.iconAmt;
             
             $scope.basePrice = $scope.basePrice + $scope.application.order.iconAmt;
-         
+            alert('appordericonamount=0 ' + $scope.basePrice)
             }
         function clearExtras() {
             $scope.application.order.personalizedText = '';
@@ -311,10 +322,11 @@ angular.module('app')
                 clearExtras();
 
             }
+           
             if ($scope.application.order.yearbookType == "Personalized Foil Yearbook") { $scope.basePrice = $scope.init.foilPersAmt; console.log("1" + $scope.basePrice); }
             if ($scope.application.order.yearbookType == "Personalized Foil Text") {  $scope.basePrice = $scope.init.foilTxtAmt; console.log("2" + $scope.basePrice);}
             if ($scope.application.order.yearbookType == "Personalized Ink Yearbook") {  $scope.basePrice = $scope.init.inkPersAmt; console.log("3" + $scope.basePrice);}
-            if ($scope.application.order.yearbookType == "Personalized Ink Text") {  $scope.basePrice = $scope.init.inkTxtAmt; console.log("4" + $scope.basePrice);}
+            if ($scope.application.order.yearbookType == "Personalized Ink Text") {  $scope.basePrice = $scope.init.inkTextAmt; console.log("4" + $scope.basePrice);}
             if ($scope.application.order.yearbookType == "Personalized Picture Yearbook") {  $scope.basePrice = $scope.init.picPersAmt;console.log("5" + $scope.basePrice); }
             if ($scope.application.order.yearbookType == "Love Line") {  $scope.basePrice = $scope.init.luvLineAmt; console.log("6" + $scope.basePrice);}
 

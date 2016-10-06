@@ -29,6 +29,8 @@ namespace Webapp.Controllers.API {
         public async Task<IHttpActionResult> Login(Credentials cred)
         {
             var processingResult = new ServiceProcessingResult<LoginReturn> { IsSuccessful = true };
+            
+
             try
             {
                 var sqlQuery = "SELECT schcode,schname,invno FROM InvoiceInfo WHERE Schcode=@Schcode AND Invno=@Invno";
@@ -43,11 +45,17 @@ namespace Webapp.Controllers.API {
                     return Ok(processingResult);
                 }
                 var retval = (List<LoginReturn>)getLoginResult.Data;
+                if (retval == null)
+                {
+                    processingResult.IsSuccessful = false;
+                    processingResult.Error = new ProcessingError("Improper Credeintials.", "Improper Credentials.", true, false);
+                    return Ok(processingResult);
+                }
                 if (retval.Count==1) {
                     processingResult.Data =retval[0]; }
                 else {
                     processingResult.IsSuccessful = false;
-                    processingResult.Error = new ProcessingError("Failed to login.", "Failed to login.", true, false);
+                    processingResult.Error = new ProcessingError("Improper Credeintials.", "Improper Credentials.", true, false);
                 }
                 return Ok(processingResult);
 
@@ -56,7 +64,9 @@ namespace Webapp.Controllers.API {
             {
                 processingResult.IsSuccessful = false;
                 processingResult.Error = new ProcessingError("Failed to login.", "Failed to login.", true, false);
-                ex.ToExceptionless().Submit();
+                ex.ToExceptionless()
+                    .SetMessage("Login Failed")
+                    .Submit();
                 return Ok(processingResult);
             }
 
@@ -65,6 +75,7 @@ namespace Webapp.Controllers.API {
         [Route("invoiceCodeExist")]
         public async Task<IHttpActionResult> InvoiceCodeExist(string invNumber) {
             var processingResult = new ServiceProcessingResult<bool> { IsSuccessful = true };
+            
             try {
                 var sqlQuery = "SELECT Invno FROM InvoiceInfo WHERE Invno=@InvNumber";
                 MySqlParameter[] parameters = new MySqlParameter[] { new MySqlParameter("@InvNumber", invNumber) };
@@ -93,7 +104,7 @@ namespace Webapp.Controllers.API {
             try
             {
                 //var sqlQuery = @"SELECT I.schcode, I.invno, D.teacher, D.id FROM invoiceinfo I LEFT JOIN dropdowninfo D ON I.schcode=D.schcode  WHERE I.invno=@InvNumber ORDER BY D.teacher";
-                var sqlQuery = @"SELECT I.schcode, I.invno, D.teacher, D.id FROM invoiceinfo I INNER JOIN dropdowninfo D ON I.schcode=D.schcode  WHERE I.invno=@InvNumber ORDER BY D.teacher";
+                var sqlQuery = @"SELECT I.schcode, I.invno, D.teacher,D.grade, D.id FROM invoiceinfo I INNER JOIN dropdowninfo D ON I.schcode=D.schcode  WHERE I.invno=@InvNumber ORDER BY D.teacher";
                 MySqlParameter[] parameters = new MySqlParameter[] { new MySqlParameter("@InvNumber", invNumber) };
                 var sqlQueryService = new SQLQuery();
                 var getInvoiceTeacherLookupResult = await sqlQueryService.ExecuteReaderAsync<InvoiceTeacherLookupBindingModel>(CommandType.Text, sqlQuery, parameters);
@@ -143,31 +154,34 @@ namespace Webapp.Controllers.API {
 
                 var invoiceInfoList = (List<InvoiceSchoolNameBindingModel>) getSchoolNameResult.Data;
                 var invoiceInfo = invoiceInfoList[0];
-
+                decimal basicinvamt,iconamt, inkpersamt, foilpersamt, picpersamt,foiltxtamt, inktxtamt, luvlineamt,fulladlineamt,halfadlineamt,quarteradlineamt,eighthadlineamt;
+                decimal.TryParse(invoiceInfo.basicinvamt, out basicinvamt);
                 processingResult.Data = new InvoiceInitBindingModel();
                 processingResult.Data.SchCode = invoiceInfo.schcode;
                 processingResult.Data.Invno = invoiceInfo.invno;
                 processingResult.Data.BasicOnly = invoiceInfo.basiconly;
-                processingResult.Data.BasicInvAmt = Convert.ToDecimal(invoiceInfo.basicinvamt);
+                processingResult.Data.BasicInvAmt = decimal.TryParse(invoiceInfo.basicinvamt, out basicinvamt) ? basicinvamt :0 ; Convert.ToDecimal(invoiceInfo.basicinvamt);
                 processingResult.Data.InkPers = invoiceInfo.inkpers;
-                processingResult.Data.InkPersAmt = Convert.ToDecimal(invoiceInfo.inkpersamt);
+                processingResult.Data.InkPersAmt = decimal.TryParse(invoiceInfo.inkpersamt, out inkpersamt) ? inkpersamt : 0; 
                 processingResult.Data.FoilPers = invoiceInfo.foilpers;
-                processingResult.Data.FoilPersAmt = Convert.ToDecimal(invoiceInfo.foilpersamt);
-                processingResult.Data.IconAmt = invoiceInfo.iconamt;
+                processingResult.Data.FoilPersAmt = decimal.TryParse(invoiceInfo.foilpersamt, out foilpersamt) ? foilpersamt : 0; 
+                processingResult.Data.IconAmt=invoiceInfo.iconamt; 
                 processingResult.Data.PicPers = invoiceInfo.picpers;
-                processingResult.Data.PicPersAmt = Convert.ToDecimal(invoiceInfo.picpersamt);
-                processingResult.Data.FoilTxtAmt = Convert.ToDecimal(invoiceInfo.foiltxtamt);
+                processingResult.Data.PicPersAmt = decimal.TryParse(invoiceInfo.picpersamt, out picpersamt) ? picpersamt : 0; 
+                processingResult.Data.FoilTxtAmt = decimal.TryParse(invoiceInfo.foiltxtamt, out foiltxtamt) ? foiltxtamt : 0; 
                 processingResult.Data.FoilTxt = invoiceInfo.foiltxt;
                 processingResult.Data.InkText = invoiceInfo.inktxt;
-                processingResult.Data.InkTextAmt = Convert.ToDecimal(invoiceInfo.inktxtamt);
+                processingResult.Data.InkTextAmt = decimal.TryParse(invoiceInfo.inktxtamt, out inktxtamt) ? inktxtamt : 0; 
                 processingResult.Data.LuvLines = invoiceInfo.luvlines;
-                processingResult.Data.LuvLineAmt = Convert.ToDecimal(invoiceInfo.luvlineamt);
+                processingResult.Data.LuvLineAmt = decimal.TryParse(invoiceInfo.luvlineamt, out luvlineamt) ? luvlineamt : 0; 
                 processingResult.Data.AdLine = invoiceInfo.adline;
-                processingResult.Data.FullAdlineAmt = Convert.ToDecimal(invoiceInfo.fulladlineamt);
-                processingResult.Data.HalfAdlineAmt = Convert.ToDecimal(invoiceInfo.halfadlineamt);
-                processingResult.Data.QuaterAdlineAmt = Convert.ToDecimal(invoiceInfo.quarteradlineamt);
-                processingResult.Data.EightAdlineAmt = Convert.ToDecimal(invoiceInfo.eighthadlineamt);
+
+                processingResult.Data.FullAdlineAmt = decimal.TryParse(invoiceInfo.fulladlineamt, out fulladlineamt) ? fulladlineamt : 0; 
+                processingResult.Data.HalfAdlineAmt = decimal.TryParse(invoiceInfo.halfadlineamt, out halfadlineamt) ? halfadlineamt : 0; 
+                processingResult.Data.QuaterAdlineAmt = decimal.TryParse(invoiceInfo.quarteradlineamt, out quarteradlineamt) ? quarteradlineamt : 0;
+                processingResult.Data.EightAdlineAmt = decimal.TryParse(invoiceInfo.eighthadlineamt, out eighthadlineamt) ? eighthadlineamt : 0;
                 processingResult.Data.OnlineCuto = invoiceInfo.onlinecuto;
+                processingResult.Data.Adcuto = invoiceInfo.adcuto;
                 processingResult.Data.schoolname = invoiceInfo.schoolname;
 
 
@@ -205,18 +219,27 @@ namespace Webapp.Controllers.API {
                 }
 
                 processingResult.IsSuccessful = true;
-                var result=(List<SchoolExist>)getSchoolResult.Data;
-                processingResult.Data = result[0];//only one record
-            
 
+                var result = (List<SchoolExist>)getSchoolResult.Data;
+                if (result == null)
+                {
+                    processingResult.Data = null;
+                }
+                else
+                {
+                    processingResult.Data = result[0];//only one record }
+
+                }
             }
             catch (Exception ex)
             {
                 ex.ToExceptionless()
                     .SetMessage("Error looing up school code.")
                     .Submit();
-                    
-                  
+                processingResult.IsSuccessful = false;
+                processingResult.Error = new ProcessingError("Error looking up school.", "Error looking up school.", true, false);
+                return Ok(processingResult);
+
             }
             return Ok(processingResult);
         }
