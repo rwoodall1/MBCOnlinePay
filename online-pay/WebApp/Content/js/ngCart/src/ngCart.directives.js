@@ -91,6 +91,7 @@ angular.module('ngCart.directives', ['ngCart.fulfilment'])
             restrict : 'E',
             controller : ('CartController', ['$rootScope', '$scope', 'ngCart', 'fulfilmentProvider', function($rootScope, $scope, ngCart, fulfilmentProvider) {
                 $scope.ngCart = ngCart;
+                console.log($scope.ngCart)
                 $scope.checkingout = false;
                 $scope.checkout = function () {
                     $scope.checkingout = true;

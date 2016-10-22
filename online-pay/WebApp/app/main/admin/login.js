@@ -8,7 +8,7 @@ angular.module('app')
         initialize();
 
         function initialize() {
-         
+       
             $scope.passWord = '';
             $scope.schoolCode = '';
             $scope.loginFailed = false;

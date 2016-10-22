@@ -92,13 +92,26 @@
             <div ng-if="page=='orders'">
                 <div class="row" style="margin:2px">
                     <div ng-if="orders.length > 0" style="margin-bottom:6px;font-size:16px">
-                        <button type="button" class="btn order-button-small" ng-click="onBtExport()" trns><i class="fa fa-download" aria-hidden="true"></i> Export</button>
+                        <button type="button" class="btn order-button-small" ng-click="onBtExport()" trns><i class="fa fa-download" aria-hidden="true"></i> Run Report To Excel</button>
                         <button class="btn order-button-small" ng-click="sizeToFit('s')"><i class="fa fa-columns" aria-hidden="true"></i> Show All Columns</button>
                         <button class="btn order-button-small" ng-click="autoSizeAll('s')"><i class="fa fa-compress" aria-hidden="true"></i> Auto-Size All Columns</button>
                         <button class="btn order-button-small" data-toggle="modal" data-target="#reportsettings"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</button>
                     </div>
                     <div ng-if="orders.length > 0" ag-grid="ordersGridOptions" class="ag-blue" ng-style="gridStyle" id="div_AGGrid"></div>
-                    <br /><br />
+                   <div ng-if="orders.length > 0">
+                       <h3>Filter Columns</h3>
+                       Filter columns by clicking the <i class="fa fa-bars"></i> icon when hovering over a header column. You can filter
+                       data based on different conditional statements. When a filter is active on a column, the filter icon appears
+                       before the column name in the header.To run itemized reports: for example for just Love Lines, or just
+                       Personalization or just Standard Yearbook, hover your mouse in the “Item” line and click on the <i class="fa fa-bars"></i>
+                       then click where it says filter – type Per for personalized book, Love for love lines or Standard for
+                       standard books, then click apply filter – once orders are showing – click on Run report to excel.
+                       Once you have opened in excel you can get a total of any column by clicking in the cell right below
+                       the column you want, click the AutoSum button (found under formulas tab) and hit enter. You can run
+                       reports on any of the columns.
+
+                   </div>
+                     <br /><br />
                     <div ng-if="(!orders)" class="bg-info padded">
                         <span class="glyphicon glyphicon-info-sign"></span> No Records Available
                     </div>
@@ -139,7 +152,15 @@
         <hr />
 
         <h3>Filter Columns</h3>
-        Filter columns by clicking the <i class="fa fa-bars"></i> icon when hovering over a header column. You can filter data based on different conditional statements. When a filter is active on a column, the filter icon appears before the column name in the header.
+        Filter columns by clicking the <i class="fa fa-bars"></i> icon when hovering over a header column. You can filter 
+        data based on different conditional statements. When a filter is active on a column, the filter icon appears 
+        before the column name in the header.To run itemized reports: for example for just Love Lines, or just 
+        Personalization or just Standard Yearbook, hover your mouse in the “Item” line and click on the <i class="fa fa-bars"></i>
+         then click where it says filter – type Per for personalized book, Love for love lines or Standard for 
+        standard books, then click apply filter – once orders are showing – click on Run report to excel. 
+        Once you have opened in excel you can get a total of any column by clicking in the cell right below 
+        the column you want, click the AutoSum button (found under formulas tab) and hit enter. You can run 
+        reports on any of the columns.
     </div>
 
 </modal>

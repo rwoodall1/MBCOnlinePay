@@ -35,7 +35,7 @@
         <div class="form-group">
             <div class="col-md-3">
                 <label>Teacher</label> <span class="required">* </span><br />
-                <select ng-if="teachers!=null" ng-disabled="!application.order.grade" name="teacher" class="form-control" ng-options="row.teacher for row in teachers |filter:{grade:application.order.grade}" ng-model="application.order.teacher" required>
+                <select ng-if="teachers!=null" ng-disabled="!application.order.grade" name="teacher" class="form-control" ng-options="row.teacher as row.teacher for row in teachers  |filter:{grade:application.order.grade}" ng-model="application.order.teacher" required>
                     <option value="">-- Please Select --</option>
                     <!--<option ng-repeat="row in teachers">{{row.teacher}}</option>-->
                 </select>
