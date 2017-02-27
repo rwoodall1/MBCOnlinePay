@@ -14,7 +14,7 @@ angular.module('app')
             { text: '5' },
             { text: '4' },
             { text: '3' },
-            {text:'2'},
+            { text: '2' },
             { text: '1' },
             { text: 'KINDERGARTEN'},
             { text: 'PREKINDERGARTEN' },

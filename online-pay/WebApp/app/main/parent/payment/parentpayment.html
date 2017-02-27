@@ -35,11 +35,11 @@
         <div class="form-group">
             <div class="col-md-3">
                 <label>Teacher</label> <span class="required">* </span><br />
-                <select ng-if="teachers!=null" ng-disabled="!application.order.grade" name="teacher" class="form-control" ng-options="row.teacher as row.teacher for row in teachers  |filter:{grade:application.order.grade}" ng-model="application.order.teacher" required>
+                <select ng-if="teachers!=null" ng-disabled="!application.order.grade" name="teacher" class="form-control" ng-options="row.teacher as row.teacher for row in teachers  |filter:{grade:application.order.grade}:true|filter:search:strict" required>
                     <option value="">-- Please Select --</option>
                     <!--<option ng-repeat="row in teachers">{{row.teacher}}</option>-->
                 </select>
-                <input type="text" ng-if="teachers==null" name="teacher" class="form-control" ng-model="application.order.teacher" required>
+                <input type="text" ng-if="teachers==null" name="teacher" class="form-control" onInput="checkLength('teacher',29)" ng-model="application.order.teacher" required>
                 <div class="alert alert-danger" role="alert"
                      ng-if="onlinePayForm.teacher.$error.required && onlinePayForm.teacher.$dirty">
                     Enter a teacher.
@@ -98,6 +98,7 @@
         <div ng-repeat="yearbook in availableYearbookTypes">
             <label>
                 <input ng-disabled="yearbook=='Ad'&& pastAdOffDate" type="radio" name="yearbookType" ng-change="setPrice()" value="{{yearbook}}" ng-model="application.order.yearbookType"> {{yearbook}} <span style="color:red;font-size:x-small" ng-if="yearbook=='Ad'&& pastAdOffDate">(Past Ad cut off date.) </span>
+              
             </label>
         </div>
         
@@ -113,11 +114,12 @@
         <div class="grayBox" ng-if="application.order.yearbookType=='Ad'">
            <label>Order Dedication Ad</label> 
            <br />
-            Create a dedication ad for your child to be featured in the yearbook. 
+            Create a dedication ad for your child to be featured in the yearbook. {{application.order.yearbookType}}
             <br /><br />
             <div ng-repeat="ad in availableAdTypes">
                 <label>
                     <input type="radio" name="adType1" ng-change="setPrice()" value="{{ad}}" ng-model="application.order.adType"> {{ad}}
+                 
                 </label>
                 <input ng-model="application.order.adType" name="adType" required hidden />
             </div>

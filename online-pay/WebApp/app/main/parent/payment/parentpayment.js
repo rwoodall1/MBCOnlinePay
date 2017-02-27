@@ -191,14 +191,22 @@ angular.module('app')
                     }
                     $scope.ngCart = ngCart
                     var order = response.data;
-                  
+                 
                     if (order == null) {
-                       
+                        if ($scope.application.order.yearbookType == 'Ad') {
+                            $scope.application.order.yearbookType = $scope.application.order.adType
+
+                        }
                         angular.copy($scope.application.order, $scope.cartObj);
                         $scope.ngCart.addItem($scope.application.cartid, $scope.application.order.yearbookType, $scope.basePrice, $scope.application.order.yearbookQuantity, $scope.application.order)
                     } else {
-                        var confirmResult = confirm("An order for student name " + order.studentfname + " " + order.studentlname + " has already been placed with pay code " + order.orderId + " on " + $filter('date')(order.ordDate) +". \nDo you still want to continue?")
+                        var confirmResult = confirm("An order for student name " + order.studentfname + " " + order.studentlname + " has already been placed with order id " + order.orderId + " on " + $filter('date')(order.ordDate) +". \nDo you still want to continue?")
                         if (confirmResult) {
+                          
+                            if ($scope.application.order.yearbookType == 'Ad') {
+                                $scope.application.order.yearbookType = $scope.application.order.adType
+                               
+                            }
                             angular.copy($scope.application.order, $scope.cartObj);
                             $scope.ngCart.addItem($scope.application.cartid, $scope.application.order.yearbookType, $scope.basePrice, $scope.application.order.yearbookQuantity, $scope.application.order)
 
@@ -298,13 +306,13 @@ angular.module('app')
             }
             if ($scope.application.order.iconAmt>0) {
                 $scope.basePrice = $scope.basePrice - $scope.application.order.iconAmt;
-                alert('appordericonamount>0 ' + $scope.basePrice)
+                //alert('appordericonamount>0 ' + $scope.basePrice)
             }
             $scope.application.order.iconAmt = 0;
             $scope.application.order.iconAmt = q * $scope.init.iconAmt;
             
             $scope.basePrice = $scope.basePrice + $scope.application.order.iconAmt;
-            alert('appordericonamount=0 ' + $scope.basePrice)
+           //alert('appordericonamount=0 ' + $scope.basePrice)
             }
         function clearExtras() {
             $scope.application.order.personalizedText = '';
